@@ -1,0 +1,14 @@
+# restricted_search-js:
+#   filter: rjsmin
+#   output: ckanext-restricted_search/%(version)s-restricted_search.js
+#   contents:
+#     - js/restricted_search.js
+#   extra:
+#     preload:
+#       - base/main
+
+# restricted_search-css:
+#   filter: cssrewrite
+#   output: ckanext-restricted_search/%(version)s-restricted_search.css
+#   contents:
+#     - css/restricted_search.css
