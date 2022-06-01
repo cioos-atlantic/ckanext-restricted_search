@@ -2,12 +2,28 @@ import logging
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import ckanext.restricted_search.cli as cli
 
+log = logging.getLogger(__name__)
 
 class RestrictedSearchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IFacets)
+    plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IActions, inherit=True)
+    plugins.implements(plugins.IDatasetForm)
+    plugins.implements(plugins.IClick)
+
+    
+    def get_commands(self):
+        return cli.get_commands()
 
     # IConfigurer
+    # ITemplateHelpers
+    def get_helpers(self):
+        return {
+        }
 
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
@@ -15,8 +31,39 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic',
             'restricted_search')
 
+    def get_actions(self):
+        return {}
+
+    
+    """
+    Required by CKAN for the schema changes to function
+    """
+    def is_fallback(self):
+        # Return True to register this plugin as the default handler for
+        # package types not handled by any other IDatasetForm plugin.
+        return False
+    
+    """
+    Required by CKAN for the schema changes to function
+    """
+    def package_types(self):
+        # This plugin doesn't handle any special package types, it just
+        # registers itself as the default (above).
+        return []
+
+    # Interfaces
+    def dataset_facets(self, facets_dict, package_type):
+        # For Python 3 upgrade: py3 lets you append to start of ordered dict
+        return facets_dict
+
+    def organization_facets(self, facets_dict, organization_type, package_type, ):
+        return facets_dict
+
+    def group_facets(self, facets_dict, group_type, package_type, ):
+        return facets_dict
 
     def before_search(self, search_params):
+        log.info("before_search")
         facet_query = search_params['fq']
         if 'restricted_search:"enabled"' in facet_query:
             facet_query = facet_query.replace('restricted_search:"enabled"', "")
@@ -44,12 +91,14 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 search_params['fq'] = final_query.strip()
             else:
                 search_params['fq'] = facet_query.strip()   
+        log.info(search_params)
         return search_params
 
 
     def after_search(self, search_results, search_params):
         # Gets the current user's ID (or if the user object does not exist, sets user as 'public')
-        
+        log.info("After search")
+
         datasets = search_results['results']
         
         # Checks if the search requires restricted variable checking

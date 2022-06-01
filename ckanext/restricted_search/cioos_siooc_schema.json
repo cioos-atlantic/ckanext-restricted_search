@@ -1,0 +1,1643 @@
+{
+  "scheming_version": 2,
+  "dataset_type": "dataset",
+  "about": "An initial implementation of the cioos-siooc CKAN dataset schema",
+  "about_url": "http://github.com/ckan/ckanext-scheming",
+  "form_languages": ["en", "fr"],
+  "dataset_fields": [{
+      "field_name": "title_translated",
+      "preset": "fluent_core_translated",
+      "display_snippet": null,
+      "required": true,
+      "label": {
+        "fr": "Titre",
+        "en": "Title"
+      },
+      "slug_lang": ["en"],
+      "form_attrs": {
+        "data-module": "slug-preview-target"
+      },
+      "form_placeholder": {
+        "fr": "p. ex. Un titre descriptif",
+        "en": "eg. A descriptive title"
+      }
+    },
+    {
+      "field_name": "name",
+      "label": "URL",
+      "preset": "dataset_slug",
+      "help_text": "unique id for the dataset (GUID or Title)",
+      "form_attrs": {
+        "data-module": "slug-preview-slug"
+      },
+      "form_placeholder": "eg. my-dataset"
+    },
+    {
+      "field_name": "notes_translated",
+      "preset": "fluent_markdown",
+      "label": "Description",
+      "display_snippet": null,
+      "required": true,
+      "form_placeholder": {
+        "fr": "par exemple: quelques notes utiles sur les données",
+        "en": "eg. Some useful notes about the data"
+      }
+    },
+    {
+      "field_name": "keywords",
+      "preset": "fluent_tags",
+      "display_snippet": null,
+      "required": true,
+      "tag_validators": "tag_length_validator cioos_tag_name_validator",
+      "label": {
+        "fr": "Mots-clés",
+        "en": "Keywords"
+      },
+      "form_placeholder": {
+        "fr": "p. ex. économie, santé mentale, gouvernement",
+        "en": "eg. economy, mental health, government"
+      }
+    },
+    {
+      "field_name": "eov",
+      "label": "Ocean Variables",
+      "preset": "multiple_select",
+      "required": true,
+      "validators": "scheming_multiple_choice cioos_clean_and_populate_eovs",
+      "choices": [{
+          "category": "Biogeochemical",
+          "value": "oxygen",
+          "label": "Oxygen",
+          "icon": "dissolved-oxygen.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaSurfaceHeight",
+          "label": "Sea Surface Height",
+          "icon": "sea-level.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "nutrients",
+          "label": "Nutrients",
+          "icon": "nutrients.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seawaterDensity",
+          "label": "Seawater Density",
+          "icon": "density.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "potentialTemperature",
+          "label": "Potential Temperature",
+          "icon": "temperature.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "potentialDensity",
+          "label": "Potential Density",
+          "icon": "density.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "speedOfSound",
+          "label": "Speed of Sound",
+          "icon": "speed-of-sound.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "nitrate",
+          "label": "Nitrate",
+          "icon": "nitrate.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "phosphate",
+          "label": "Phosphate",
+          "icon": "phosphate.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "silicate",
+          "label": "Silicate",
+          "icon": "silicate.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "inorganicCarbon",
+          "label": "Inorganic Carbon",
+          "icon": "inorganic-carbon.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "transientTracers",
+          "label": "Transient tracers",
+          "icon": "transient-tracers.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "particulateMatter",
+          "label": "Particulate matter",
+          "icon": "particulate-matter.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "nitrousOxide",
+          "label": "Nitrous oxide",
+          "icon": "nitrous-oxide.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "stableCarbonIsotopes",
+          "label": "Stable carbon isotopes",
+          "icon": "stable-carbon-isotopes.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "dissolvedOrganicCarbon",
+          "label": "Dissolved Organic Carbon",
+          "icon": "dissolved-organic-carbon.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaIce",
+          "label": "Sea Ice",
+          "icon": "sea-ice.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaState",
+          "label": "Sea State",
+          "icon": "sea-state.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaSurfaceSalinity",
+          "label": "Sea Surface Salinity",
+          "icon": "surface-salinity.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaSurfaceTemperature",
+          "label": "Sea Surface Temperature",
+          "icon": "surface-temperature.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "subSurfaceCurrents",
+          "label": "Sub Surface Currents",
+          "icon": "subsurface-currents.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "subSurfaceSalinity",
+          "label": "Sub Surface Salinity",
+          "icon": "subsurface-salinity.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "subSurfaceTemperature",
+          "label": "Sub Surface Temperature",
+          "icon": "subsurface-temperature.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "surfaceCurrents",
+          "label": "Surface Currents",
+          "icon": "surface-currents.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "oceanSurfaceStress",
+          "label": "Ocean surface stress",
+          "icon": "sea-surface-stress.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "oceanSurfaceHeatFlux",
+          "label": "Ocean surface heat flux",
+          "icon": "ocean-surface-heat-flux.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "phytoplanktonBiomassAndDiversity",
+          "label": "Phytoplankton biomass and diversity",
+          "icon": "phytoplankton.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "zooplanktonBiomassAndDiversity",
+          "label": "Zooplankton biomass and diversity",
+          "icon": "zooplankton.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "fishAbundanceAndDistribution",
+          "label": "Fish abundance and distribution",
+          "icon": "fish.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "microbeBiomassAndDiversity",
+          "label": "Microbe biomass and diversity",
+          "icon": "microbes.svg",
+          "emerging": true
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "marineTurtlesBirdsMammalsAbundanceAndDistribution",
+          "label": "Marine turtles, birds, mammals abundance and distribution",
+          "icon": "birds-mammals.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "hardCoralCoverAndComposition",
+          "label": "Hard coral cover and composition",
+          "icon": "hard-coral.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "seagrassCoverAndComposition",
+          "label": "Seagrass cover and composition",
+          "icon": "seagrass.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "macroalgalCanopyCoverAndComposition",
+          "label": "Macroalgal canopy cover and composition",
+          "icon": "macroalgal-canopy.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "invertebrateAbundanceAndDistribution",
+          "label": "Invertebrate abundance and distribution",
+          "icon": "invertebrates.svg",
+          "emerging": true
+        },
+        {
+          "category": "Other",
+          "value": "other",
+          "label": "Other",
+          "icon": "eov_other.svg"
+        },
+        {
+          "category": "Cross-disciplinary",
+          "value": "marineDebris",
+          "label": "Marine debris",
+          "icon": "marine-debris.svg",
+          "emerging": true
+        },
+        {
+          "category": "Cross-disciplinary",
+          "value": "oceanColor",
+          "label": "Ocean color",
+          "icon": "ocean-colour.svg"
+        },
+        {
+          "category": "Cross-disciplinary",
+          "value": "oceanSound",
+          "label": "Ocean sound",
+          "icon": "ocean-sound.svg"
+        }
+      ]
+    },
+    {
+      "field_name": "res_extras_keywords_restricted",
+      "preset": "fluent_tags",
+      "display_snippet": null,
+      "required": false,
+      "tag_validators": "tag_length_validator cioos_tag_name_validator",
+      "label": {
+        "fr": "Mots-clés (Limité)",
+        "en": "Keywords (Restricted)"
+      },
+      "form_placeholder": {
+        "fr": "p. ex. économie, santé mentale, gouvernement",
+        "en": "eg. economy, mental health, government"
+      }
+    },
+    {
+      "field_name": "res_extras_eov_restricted",
+      "label": "Ocean Variables (Restricted)",
+      "preset": "multiple_select",
+      "required": false,
+      "validators": "scheming_multiple_choice",
+      "choices": [{
+          "category": "Biogeochemical",
+          "value": "oxygen",
+          "label": "Oxygen",
+          "icon": "dissolved-oxygen.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaSurfaceHeight",
+          "label": "Sea Surface Height",
+          "icon": "sea-level.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "nutrients",
+          "label": "Nutrients",
+          "icon": "nutrients.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seawaterDensity",
+          "label": "Seawater Density",
+          "icon": "density.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "potentialTemperature",
+          "label": "Potential Temperature",
+          "icon": "temperature.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "potentialDensity",
+          "label": "Potential Density",
+          "icon": "density.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "speedOfSound",
+          "label": "Speed of Sound",
+          "icon": "speed-of-sound.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "nitrate",
+          "label": "Nitrate",
+          "icon": "nitrate.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "phosphate",
+          "label": "Phosphate",
+          "icon": "phosphate.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "silicate",
+          "label": "Silicate",
+          "icon": "silicate.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "inorganicCarbon",
+          "label": "Inorganic Carbon",
+          "icon": "inorganic-carbon.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "transientTracers",
+          "label": "Transient tracers",
+          "icon": "transient-tracers.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "particulateMatter",
+          "label": "Particulate matter",
+          "icon": "particulate-matter.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "nitrousOxide",
+          "label": "Nitrous oxide",
+          "icon": "nitrous-oxide.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "stableCarbonIsotopes",
+          "label": "Stable carbon isotopes",
+          "icon": "stable-carbon-isotopes.svg"
+        },
+        {
+          "category": "Biogeochemical",
+          "value": "dissolvedOrganicCarbon",
+          "label": "Dissolved Organic Carbon",
+          "icon": "dissolved-organic-carbon.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaIce",
+          "label": "Sea Ice",
+          "icon": "sea-ice.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaState",
+          "label": "Sea State",
+          "icon": "sea-state.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaSurfaceSalinity",
+          "label": "Sea Surface Salinity",
+          "icon": "surface-salinity.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "seaSurfaceTemperature",
+          "label": "Sea Surface Temperature",
+          "icon": "surface-temperature.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "subSurfaceCurrents",
+          "label": "Sub Surface Currents",
+          "icon": "subsurface-currents.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "subSurfaceSalinity",
+          "label": "Sub Surface Salinity",
+          "icon": "subsurface-salinity.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "subSurfaceTemperature",
+          "label": "Sub Surface Temperature",
+          "icon": "subsurface-temperature.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "surfaceCurrents",
+          "label": "Surface Currents",
+          "icon": "surface-currents.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "oceanSurfaceStress",
+          "label": "Ocean surface stress",
+          "icon": "sea-surface-stress.svg"
+        },
+        {
+          "category": "Physical",
+          "value": "oceanSurfaceHeatFlux",
+          "label": "Ocean surface heat flux",
+          "icon": "ocean-surface-heat-flux.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "phytoplanktonBiomassAndDiversity",
+          "label": "Phytoplankton biomass and diversity",
+          "icon": "phytoplankton.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "zooplanktonBiomassAndDiversity",
+          "label": "Zooplankton biomass and diversity",
+          "icon": "zooplankton.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "fishAbundanceAndDistribution",
+          "label": "Fish abundance and distribution",
+          "icon": "fish.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "microbeBiomassAndDiversity",
+          "label": "Microbe biomass and diversity",
+          "icon": "microbes.svg",
+          "emerging": true
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "marineTurtlesBirdsMammalsAbundanceAndDistribution",
+          "label": "Marine turtles, birds, mammals abundance and distribution",
+          "icon": "birds-mammals.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "hardCoralCoverAndComposition",
+          "label": "Hard coral cover and composition",
+          "icon": "hard-coral.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "seagrassCoverAndComposition",
+          "label": "Seagrass cover and composition",
+          "icon": "seagrass.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "macroalgalCanopyCoverAndComposition",
+          "label": "Macroalgal canopy cover and composition",
+          "icon": "macroalgal-canopy.svg"
+        },
+        {
+          "category": "BioEcosystems",
+          "value": "invertebrateAbundanceAndDistribution",
+          "label": "Invertebrate abundance and distribution",
+          "icon": "invertebrates.svg",
+          "emerging": true
+        },
+        {
+          "category": "Other",
+          "value": "other",
+          "label": "Other",
+          "icon": "eov_other.svg"
+        },
+        {
+          "category": "Cross-disciplinary",
+          "value": "marineDebris",
+          "label": "Marine debris",
+          "icon": "marine-debris.svg",
+          "emerging": true
+        },
+        {
+          "category": "Cross-disciplinary",
+          "value": "oceanColor",
+          "label": "Ocean color",
+          "icon": "ocean-colour.svg"
+        },
+        {
+          "category": "Cross-disciplinary",
+          "value": "oceanSound",
+          "label": "Ocean sound",
+          "icon": "ocean-sound.svg"
+        }
+      ]
+    },
+    {
+      "field_name": "citation",
+      "preset": "fluent_markdown",
+      "display_snippet": null,
+      "label": "Citation",
+      "help_text": "Citation information in json format or DOI URL. See https://citation.js.org/demo/ for acceptable inputs"
+    },
+    {
+      "field_name": "license_id",
+      "label": "License",
+      "display_snippet": null,
+      "form_snippet": "license.html",
+      "help_text": "License definitions and additional information can be found at http://opendefinition.org/"
+    },
+    {
+      "field_name": "resource-type",
+      "label": "Scope",
+      "preset": "select",
+      "display_snippet": "select.html",
+      "required": true,
+      "choices": [{
+          "value": "attribute",
+          "label": "Attribute"
+        },
+        {
+          "value": "attributeType",
+          "label": "Attribute Type"
+        },
+        {
+          "value": "collectionHardware",
+          "label": "Collection Hardware"
+        },
+        {
+          "value": "collectionSession",
+          "label": "Collection Session"
+        },
+        {
+          "value": "dataset",
+          "label": "Dataset"
+        },
+        {
+          "value": "series",
+          "label": "Series"
+        },
+        {
+          "value": "nonGeographicDataset",
+          "label": "Non Geographic Dataset"
+        },
+        {
+          "value": "dimensionGroup",
+          "label": "Dimension Group"
+        },
+        {
+          "value": "feature",
+          "label": "Feature"
+        },
+        {
+          "value": "featureType",
+          "label": "Feature Type"
+        },
+        {
+          "value": "propertyType",
+          "label": "Property Type"
+        },
+        {
+          "value": "fieldSession",
+          "label": "Field Session"
+        },
+        {
+          "value": "software",
+          "label": "Software"
+        },
+        {
+          "value": "service",
+          "label": "Service"
+        },
+        {
+          "value": "model",
+          "label": "Model"
+        },
+        {
+          "value": "tile",
+          "label": "Tile"
+        },
+        {
+          "value": "metadata",
+          "label": "Metadata"
+        },
+        {
+          "value": "initiative",
+          "label": "Initiative"
+        },
+        {
+          "value": "sample",
+          "label": "Sample"
+        },
+        {
+          "value": "document",
+          "label": "Document"
+        },
+        {
+          "value": "repository",
+          "label": "Repository"
+        },
+        {
+          "value": "aggregate",
+          "label": "Aggregate"
+        },
+        {
+          "value": "product",
+          "label": "Product"
+        },
+        {
+          "value": "collection",
+          "label": "Collection"
+        },
+        {
+          "value": "coverage",
+          "label": "Coverage"
+        },
+        {
+          "value": "application",
+          "label": "Application"
+        }
+      ]
+    },
+    {
+      "field_name": "progress",
+      "label": "Status",
+      "preset": "select",
+      "display_snippet": "select.html",
+      "required": true,
+      "choices": [{
+        "value": "completed",
+        "label": "Completed"
+      }, {
+        "value": "historicalArchive",
+        "label": "Historical Archive"
+      }, {
+        "value": "obsolete",
+        "label": "Obsolete"
+      }, {
+        "value": "onGoing",
+        "label": "On Going"
+      }, {
+        "value": "planned",
+        "label": "Planned"
+      }, {
+        "value": "required",
+        "label": "Required"
+      }, {
+        "value": "underDevelopment",
+        "label": "Under Development"
+      }, {
+        "value": "final",
+        "label": "Final"
+      }, {
+        "value": "pending",
+        "label": "Pending"
+      }, {
+        "value": "retired",
+        "label": "Retired"
+      }, {
+        "value": "superseded",
+        "label": "Superseded"
+      }, {
+        "value": "tentative",
+        "label": "Tentative"
+      }, {
+        "value": "valid",
+        "label": "Valid"
+      }, {
+        "value": "accepted",
+        "label": "Accepted"
+      }, {
+        "value": "notAccepted",
+        "label": "Not Accepted"
+      }, {
+        "value": "withdrawn",
+        "label": "Withdrawn"
+      }, {
+        "value": "proposed",
+        "label": "Proposed"
+      }, {
+        "value": "deprecated",
+        "label": "Deprecated"
+      }]
+    },
+    {
+      "field_name": "aggregation-info",
+      "label": "Associated Datasets",
+      "form_blanks": 1,
+      "help_text": "https://wiki.esipfed.org/MD_AssociatedResource",
+      "repeating_subfields": [{
+          "field_name": "aggregate-dataset-identifier",
+          "label": "Parent or Linked Dataset",
+          "help_text": "Enter a dataset name or title",
+          "form_attrs": {
+            "data-module": "autocomplete",
+            "data-module-items": 5,
+            "data-module-interval": 500,
+            "data-module-source": "/api/3/action/package_autocomplete?q=?",
+            "data-module-key": "name",
+            "data-module-label": "title",
+            "data-module-class": "",
+            "class": ""
+          }
+        },
+        {
+          "field_name": "initiative-type",
+          "label": "Initiative Type",
+          "help_text": "https://wiki.esipfed.org/ISO_19115-3_Codelists#DS_InitiativeTypeCode",
+          "preset": "select",
+          "choices": [
+            {
+              "value": "campaign",
+              "label": "campaign"
+            },
+            {
+              "value": "collection",
+              "label": "collection"
+            },
+            {
+              "value": "exercise",
+              "label": "exercise"
+            },
+            {
+              "value": "experiment",
+              "label": "experiment"
+            },
+            {
+              "value": "investigation",
+              "label": "investigation"
+            },
+            {
+              "value": "mission",
+              "label": "mission"
+            },
+            {
+              "value": "operation",
+              "label": "operation"
+            },
+            {
+              "value": "platform",
+              "label": "platform"
+            },
+            {
+              "value": "process",
+              "label": "process"
+            },
+            {
+              "value": "program",
+              "label": "program"
+            },
+            {
+              "value": "project",
+              "label": "project"
+            },
+            {
+              "value": "sensor",
+              "label": "sensor"
+            },
+            {
+              "value": "study",
+              "label": "study"
+            },
+            {
+              "value": "task",
+              "label": "task"
+            },
+            {
+              "value": "trial",
+              "label": "trial"
+            }
+          ]
+        },
+        {
+          "field_name": "association-type",
+          "label": "Association Type",
+          "preset": "select",
+          "help_text": "https://wiki.esipfed.org/ISO_19115-3_Codelists#DS_AssociationTypeCode",
+          "choices": [
+            {
+              "value": "collectiveTitle",
+              "label": "collectiveTitle"
+            },
+            {
+              "value": "crossReference",
+              "label": "crossReference"
+            },
+            {
+              "value": "dependency",
+              "label": "dependency"
+            },
+            {
+              "value": "isComposedOf",
+              "label": "isComposedOf"
+            },
+            {
+              "value": "largerWorkCitation",
+              "label": "largerWorkCitation"
+            },
+            {
+              "value": "partOfSeamlessDatabase",
+              "label": "partOfSeamlessDatabase"
+            },
+            {
+              "value": "revisionOf",
+              "label": "revisionOf"
+            },
+            {
+              "value": "series",
+              "label": "series"
+            },
+            {
+              "value": "stereoMate",
+              "label": "stereoMate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_name": "metadata-reference-date",
+      "label": "Metadata Dates",
+      "display_snippet": null,
+      "help_text": "Dates related to the metadata record",
+      "form_blanks": 1,
+      "repeating_label": "Metadata Date",
+      "repeating_subfields": [
+        {
+          "field_name": "value",
+          "label": "Date",
+          "preset": "date",
+          "form_attrs": {
+            "required pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          },
+          "form_placeholder": "yyyy-mm-dd"
+        },
+        {
+          "field_name": "type",
+          "label": "Type",
+          "choices": [{
+              "value": "creation",
+              "label": "Creation"
+            },
+            {
+              "value": "publication",
+              "label": "Publication"
+            },
+            {
+              "value": "revision",
+              "label": "Revision"
+            },
+            {
+              "value": "expiry",
+              "label": "Expiry"
+            },
+            {
+              "value": "lastUpdate",
+              "label": "Last Update"
+            },
+            {
+              "value": "lastRevision",
+              "label": "Last Revision"
+            },
+            {
+              "value": "nextUpdate",
+              "label": "Next Update"
+            },
+            {
+              "value": "unavailable",
+              "label": "Unavailable"
+            },
+            {
+              "value": "inForce",
+              "label": "In Force"
+            },
+            {
+              "value": "adopted",
+              "label": "Adopted"
+            },
+            {
+              "value": "deprecated",
+              "label": "Deprecated"
+            },
+            {
+              "value": "superseded",
+              "label": "Superseded"
+            },
+            {
+              "value": "validityBegins",
+              "label": "Validity Begins"
+            },
+            {
+              "value": "validityExpires",
+              "label": "Validity Expires"
+            },
+            {
+              "value": "released",
+              "label": "Released"
+            },
+            {
+              "value": "distribution",
+              "label": "Distribution"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_name": "dataset-reference-date",
+      "label": "Resource Dates",
+      "display_snippet": null,
+      "help_text": "Dates related to the dataset resource",
+      "form_blanks": 1,
+      "repeating_label": "Resource Date",
+      "repeating_subfields": [
+        {
+          "field_name": "value",
+          "label": "Date",
+          "preset": "date",
+          "form_attrs": {
+            "required pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          },
+          "form_placeholder": "yyyy-mm-dd"
+        },
+        {
+          "field_name": "type",
+          "label": "Type",
+          "choices": [{
+              "value": "creation",
+              "label": "Creation"
+            },
+            {
+              "value": "publication",
+              "label": "Publication"
+            },
+            {
+              "value": "revision",
+              "label": "Revision"
+            },
+            {
+              "value": "expiry",
+              "label": "Expiry"
+            },
+            {
+              "value": "lastUpdate",
+              "label": "Last Update"
+            },
+            {
+              "value": "lastRevision",
+              "label": "Last Revision"
+            },
+            {
+              "value": "nextUpdate",
+              "label": "Next Update"
+            },
+            {
+              "value": "unavailable",
+              "label": "Unavailable"
+            },
+            {
+              "value": "inForce",
+              "label": "In Force"
+            },
+            {
+              "value": "adopted",
+              "label": "Adopted"
+            },
+            {
+              "value": "deprecated",
+              "label": "Deprecated"
+            },
+            {
+              "value": "superseded",
+              "label": "Superseded"
+            },
+            {
+              "value": "validityBegins",
+              "label": "Validity Begins"
+            },
+            {
+              "value": "validityExpires",
+              "label": "Validity Expires"
+            },
+            {
+              "value": "released",
+              "label": "Released"
+            },
+            {
+              "value": "distribution",
+              "label": "Distribution"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_name": "frequency-of-update",
+      "label": "Maintenance and update frequency",
+      "preset": "select",
+      "display_snippet": "select.html",
+      "display_snippet": null,
+      "required": true,
+      "choices": [{
+          "value": "continual",
+          "label": "Continual"
+        },
+        {
+          "value": "daily",
+          "label": "Daily"
+        },
+        {
+          "value": "weekly",
+          "label": "Weekly"
+        },
+        {
+          "value": "fortnightly",
+          "label": "Fortnightly"
+        },
+        {
+          "value": "monthly",
+          "label": "Monthly"
+        },
+        {
+          "value": "quarterly",
+          "label": "Quarterly"
+        },
+        {
+          "value": "bianually",
+          "label": "Bianually"
+        },
+        {
+          "value": "annually",
+          "label": "Annually"
+        },
+        {
+          "value": "asNeeded",
+          "label": "As Needed"
+        },
+        {
+          "value": "irregular",
+          "label": "Irregular"
+        },
+        {
+          "value": "notPlanned",
+          "label": "Not Planned"
+        },
+        {
+          "value": "unknown",
+          "label": "Unknown"
+        }
+      ]
+    },
+    {
+      "field_name": "maintenance-note",
+      "label": "Maintenance Note"
+    },
+    {
+      "field_name": "metadata-point-of-contact",
+      "label": "Point of Contact",
+      "help_text": "Individual or Organization who is the primary contact for this dataset",
+      "required": true,
+      "form_blanks": 1,
+      "repeating_subfields": [{
+          "field_name": "individual-name",
+          "label": "Name",
+          "form_placeholder": "Joe Bloggs",
+          "require_one": true,
+          "hint": "name of individual"
+        },
+        {
+          "field_name": "organisation-name",
+          "label": "Affiliation",
+          "require_one": true,
+          "hint": "name of orginization or affiliation if individual name is used"
+        },
+        {
+          "field_name": "contact-info_online-resource",
+          "label": "Resource"
+        },
+        {
+          "field_name": "contact-info_email",
+          "label": "Email"
+        },
+        {
+          "field_name": "role",
+          "label": "Role",
+          "preset": "multiple_select",
+          "required": true,
+          "choices": [{
+              "value": "author",
+              "label": "Author"
+            },
+            {
+              "value": "custodian",
+              "label": "Custodian"
+            },
+            {
+              "value": "distributor",
+              "label": "Distributor"
+            },
+            {
+              "value": "originator",
+              "label": "Originator"
+            },
+            {
+              "value": "owner",
+              "label": "Owner"
+            },
+            {
+              "value": "pointOfContact",
+              "label": "Point of Contact"
+            },
+            {
+              "value": "principalInvestigator",
+              "label": "Principal Investigator"
+            },
+            {
+              "value": "processor",
+              "label": "Processor"
+            },
+            {
+              "value": "publisher",
+              "label": "Publisher"
+            },
+            {
+              "value": "resourceProvider",
+              "label": "Resource Provider"
+            },
+            {
+              "value": "user",
+              "label": "User"
+            },
+            {
+              "value": "sponsor",
+              "label": "Sponsor"
+            },
+            {
+              "value": "coAuthor",
+              "label": "Co Author"
+            },
+            {
+              "value": "collaborator",
+              "label": "Collaborator"
+            },
+            {
+              "value": "editor",
+              "label": "Editor"
+            },
+            {
+              "value": "mediator",
+              "label": "Mediator"
+            },
+            {
+              "value": "rightsHolder",
+              "label": "Rights Holder"
+            },
+            {
+              "value": "contributor",
+              "label": "Contributor"
+            },
+            {
+              "value": "funder",
+              "label": "Funder"
+            },
+            {
+              "value": "stakeholder",
+              "label": "Stakeholder"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_name": "cited-responsible-party",
+      "label": "Responsible Party",
+      "help_text": "All individuals and organizations who contributed to the dataset and thus should appear in the citation",
+      "required": true,
+      "form_blanks": 1,
+      "repeating_subfields": [{
+          "field_name": "individual-name",
+          "label": "Name",
+          "form_placeholder": "Joe Bloggs",
+          "require_one": true,
+          "hint": "name of individual"
+        },
+        {
+          "field_name": "organisation-name",
+          "label": "Affiliation",
+          "require_one": true,
+          "hint": "name of orginization or affiliation if individual name is used"
+        },
+        {
+          "field_name": "contact-info_online-resource",
+          "label": "Resource"
+        },
+        {
+          "field_name": "contact-info_email",
+          "label": "Email"
+        },
+        {
+          "field_name": "role",
+          "label": "Role",
+          "preset": "multiple_select",
+          "required": true,
+          "choices": [{
+              "value": "author",
+              "label": "Author"
+            },
+            {
+              "value": "custodian",
+              "label": "Custodian"
+            },
+            {
+              "value": "distributor",
+              "label": "Distributor"
+            },
+            {
+              "value": "originator",
+              "label": "Originator"
+            },
+            {
+              "value": "owner",
+              "label": "Owner"
+            },
+            {
+              "value": "pointOfContact",
+              "label": "Point of Contact"
+            },
+            {
+              "value": "principalInvestigator",
+              "label": "Principal Investigator"
+            },
+            {
+              "value": "processor",
+              "label": "Processor"
+            },
+            {
+              "value": "publisher",
+              "label": "Publisher"
+            },
+            {
+              "value": "resourceProvider",
+              "label": "Resource Provider"
+            },
+            {
+              "value": "user",
+              "label": "User"
+            },
+            {
+              "value": "sponsor",
+              "label": "Sponsor"
+            },
+            {
+              "value": "coAuthor",
+              "label": "Co Author"
+            },
+            {
+              "value": "collaborator",
+              "label": "Collaborator"
+            },
+            {
+              "value": "editor",
+              "label": "Editor"
+            },
+            {
+              "value": "mediator",
+              "label": "Mediator"
+            },
+            {
+              "value": "rightsHolder",
+              "label": "Rights Holder"
+            },
+            {
+              "value": "contributor",
+              "label": "Contributor"
+            },
+            {
+              "value": "funder",
+              "label": "Funder"
+            },
+            {
+              "value": "stakeholder",
+              "label": "Stakeholder"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_name": "distributor",
+      "label": "Distributor",
+      "help_text": "All individuals and organizations who disseminate copies of the resource in either electronic or print form",
+      "required": false,
+      "form_blanks": 1,
+      "repeating_subfields": [{
+          "field_name": "individual-name",
+          "label": "Name",
+          "form_placeholder": "Joe Bloggs",
+          "require_one": true,
+          "hint": "name of individual"
+        },
+        {
+          "field_name": "organisation-name",
+          "label": "Affiliation",
+          "require_one": true,
+          "hint": "name of orginization or affiliation if individual name is used"
+        },
+        {
+          "field_name": "contact-info_online-resource",
+          "label": "Resource"
+        },
+        {
+          "field_name": "contact-info_email",
+          "label": "Email"
+        },
+        {
+          "field_name": "role",
+          "label": "Role",
+          "preset": "multiple_select",
+          "required": true,
+          "choices": [{
+              "value": "author",
+              "label": "Author"
+            },
+            {
+              "value": "custodian",
+              "label": "Custodian"
+            },
+            {
+              "value": "distributor",
+              "label": "Distributor"
+            },
+            {
+              "value": "originator",
+              "label": "Originator"
+            },
+            {
+              "value": "owner",
+              "label": "Owner"
+            },
+            {
+              "value": "pointOfContact",
+              "label": "Point of Contact"
+            },
+            {
+              "value": "principalInvestigator",
+              "label": "Principal Investigator"
+            },
+            {
+              "value": "processor",
+              "label": "Processor"
+            },
+            {
+              "value": "publisher",
+              "label": "Publisher"
+            },
+            {
+              "value": "resourceProvider",
+              "label": "Resource Provider"
+            },
+            {
+              "value": "user",
+              "label": "User"
+            },
+            {
+              "value": "sponsor",
+              "label": "Sponsor"
+            },
+            {
+              "value": "coAuthor",
+              "label": "Co Author"
+            },
+            {
+              "value": "collaborator",
+              "label": "Collaborator"
+            },
+            {
+              "value": "editor",
+              "label": "Editor"
+            },
+            {
+              "value": "mediator",
+              "label": "Mediator"
+            },
+            {
+              "value": "rightsHolder",
+              "label": "Rights Holder"
+            },
+            {
+              "value": "contributor",
+              "label": "Contributor"
+            },
+            {
+              "value": "funder",
+              "label": "Funder"
+            },
+            {
+              "value": "stakeholder",
+              "label": "Stakeholder"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_name": "spatial",
+      "label": "Spatial Extent",
+      "form_snippet": "spatial.html"
+    },
+    {
+      "field_name": "bbox-north-lat",
+      "label": "North Bounding Latitude",
+      "form_snippet": null
+    },
+    {
+      "field_name": "bbox-south-lat",
+      "label": "South Bounding Latitude",
+      "form_snippet": null
+    },
+    {
+      "field_name": "bbox-east-long",
+      "label": "East Bounding Longitude",
+      "form_snippet": null
+    },
+    {
+      "field_name": "bbox-west-long",
+      "label": "West Bounding Longitude",
+      "form_snippet": null
+    },
+    {
+      "field_name": "temporal-extent",
+      "label": "Temporal Extent",
+      "simple_subfields": [
+        {
+          "field_name": "begin",
+          "label": "Begin",
+          "preset": "date",
+          "form_attrs": {
+            "required pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          },
+          "form_placeholder": "yyyy-mm-dd"
+        },
+        {
+          "field_name": "end",
+          "label": "End",
+          "preset": "date",
+          "form_attrs": {
+            "required pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          },
+          "form_placeholder": "yyyy-mm-dd"
+        }
+      ]
+    },
+    {
+      "field_name": "vertical-extent",
+      "label": "Vertical Extent",
+      "simple_subfields": [
+        {
+          "field_name": "min",
+          "label": "Min",
+          "form_attrs": {
+            "pattern": "[0-9.]+"
+          }
+        },
+        {
+          "field_name": "max",
+          "label": "Max",
+          "form_attrs": {
+            "pattern": "[0-9.]+"
+          }
+        }
+      ]
+    },
+    {
+      "field_name": "metadata-language",
+      "label": "Default Locale",
+      "preset": "select",
+      "display_snippet": "select.html",
+      "choices": [{
+          "value": "en",
+          "label": "English"
+        },
+        {
+          "value": "fr",
+          "label": "French"
+        }
+      ],
+      "help_text": "Default language used in this datasets metadata"
+    },
+    {
+      "field_name": "unique-resource-identifier-full",
+      "label": "Citation identifier",
+      "help_text": "If usind a doi url place the while url in the code section. example: http://doi.org/12345.67890#1",
+      "simple_subfields": [{
+          "field_name": "authority",
+          "label": "Authority",
+          "form_placeholder": "doi.org"
+        },
+        {
+          "field_name": "code-space",
+          "label": "Code Space",
+          "form_placeholder": "12345"
+        },
+        {
+          "field_name": "code",
+          "label": "Code",
+          "form_placeholder": "67890"
+        },
+        {
+          "field_name": "version",
+          "label": "Version",
+          "form_placeholder": "1"
+        }
+      ]
+    },
+    {
+      "field_name": "xml_location_url",
+      "label": "XML Metadata File Location",
+      "form_placeholder": "http://waf/location/xml_metadata_file.xml",
+      "display_property": "foaf:homepage",
+      "display_snippet": "link.html",
+      "required": true,
+      "display_snippet": null,
+      "help_text": "(Recomended) URL for the external xml metadata file which represents the full cioos metadata reocrd. This is often the same file used to create this record if the dataset is generated using the spatial harvester. If using the api to create datasets this field will not be set automaticly."
+    },
+    {
+      "field_name": "harvest_document_content",
+      "label": "External Harvest Document Content",
+      "display_snippet": null,
+      "help_text": "(Optional) Contents of external full xml metadata file. This field is populated from the XML Metadata File Location URL during harvest"
+    },
+    {
+      "field_name": "owner_org",
+      "label": "Organization",
+      "preset": "dataset_organization",
+      "display_snippet": null
+    },
+    {
+      "field_name": "version",
+      "label": "Version",
+      "validators": "ignore_missing unicode package_version_validator",
+      "form_placeholder": "1.0"
+    },
+    {
+      "field_name": "spatial_initial_max_zoom",
+      "label": "Initial dataset map max zoom level",
+      "display_snippet": null,
+      "validators": "ignore_missing int_validator",
+      "form_placeholder": "9",
+      "help_text": "(Optional) Sets the initial maxamum zoom level in the spatial map when viewing this dataset"
+    }
+  ],
+  "resource_fields": [{
+      "field_name": "url",
+      "label": "URL",
+      "preset": "resource_url_upload"
+    },
+    {
+      "field_name": "name",
+      "label": "Name",
+      "form_placeholder": "eg. January 2011 Gold Prices"
+    },
+    {
+      "field_name": "description",
+      "label": "Description",
+      "form_snippet": "markdown.html",
+      "form_placeholder": "Some useful notes about the data"
+    },
+    {
+      "field_name": "format",
+      "label": "Format",
+      "preset": "resource_format_autocomplete"
+    }
+  ]
+}
