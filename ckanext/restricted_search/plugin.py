@@ -132,4 +132,14 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
+
+        
+    def after_show(self,context, pkg_dict):
+        if context['package'].type != 'dataset':
+            return pkg_dict
+        if('user' not in context):
+            log.info("This is before index we're done here.")
+            return pkg_dict
+        log.info(pkg_dict.keys())
+        return pkg_dict
     
