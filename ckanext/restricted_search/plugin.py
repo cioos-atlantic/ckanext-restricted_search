@@ -1,7 +1,5 @@
 import logging
 
-from jmespath import search
-
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helper
