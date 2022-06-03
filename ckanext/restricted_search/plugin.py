@@ -1,5 +1,7 @@
 import logging
 
+from jmespath import search
+
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helper
@@ -64,6 +66,8 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
 
     def before_search(self, search_params):
         log.info("before_search")
+        if 'fq' not in search_params:
+            return search_params
         facet_query = search_params['fq']
         if 'restricted_search:"enabled"' in facet_query:
             facet_query = facet_query.replace('restricted_search:"enabled"', "")
