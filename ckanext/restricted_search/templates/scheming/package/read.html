@@ -28,12 +28,12 @@
         <p>
         Open Variables:
         </p>
-        {% snippet "package/snippets/tags.html", tags=pkg.tags %}
+        {% snippet "package/snippets/tags.html", tags=pkg.keywords[h.lang] %}
         <p>
         Restricted Variables:
         </p>
-        {% snippet "package/snippets/tags.html", tags=pkg.res_extras_keywords_restricted['en'] %}
+        {% snippet "package/snippets/tags.html", tags=pkg.res_extras_keywords_restricted[h.lang] %}
     {% else %}
-        {% snippet "package/snippets/tags.html", tags=pkg.tags %}
+        {% snippet "package/snippets/tags.html", tags = pkg.keywords %}
     {% endif %}
   {% endblock %}
