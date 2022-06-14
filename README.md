@@ -7,26 +7,22 @@
 
 ## Requirements
 
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
+This plugin is compatible with CKAN 2.9 or later
 
-If your extension works across different versions you can add the following table:
+Requires the following extensions:
 
-Compatibility with core CKAN versions:
+    ckanext-scheming
 
-| CKAN version    | Compatible?   |
-| --------------- | ------------- |
-| 2.6 and earlier | not tested    |
-| 2.7             | not tested    |
-| 2.8             | not tested    |
-| 2.9             | not tested    |
+The plugin interacts with the following templates and may override or be overridden by any using the following blocks.
 
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
+    scheming/package/read.html
+        block package_tags
+        block package_notes
+    snippets/package_item.html
+        block heading_private
+    snippets/search_form.html
+        block search_facets
+        block search_sortby
 
 
 ## Installation
@@ -47,6 +43,7 @@ To install ckanext-restricted_search:
     cd ckanext-restricted_search
     pip install -e .
 	pip install -r requirements.txt
+    python setup.py develop
 
 3. Add `restricted_search` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
@@ -59,7 +56,12 @@ To install ckanext-restricted_search:
 
 ## Config settings
 
-None at present
+If using ckanext-scheming plugins such as scheming_datasets or scheming_organizations, place restricted_search above those plugins in the config file.
+
+If using the CIOOS schema, set the dataset scheming in the config file to use the one provided by the plugin:
+
+    scheming.dataset_schemas = ckanext.scheming:cioos_siooc_schema.json
+
 
 **TODO:** Document any optional config settings here. For example:
 
