@@ -64,14 +64,13 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
     def before_search(self, search_params):
-        log.info("before_search")
         if 'fq' not in search_params:
             return search_params
-        facet_query = search_params['fq']
-        if 'restricted_search:"enabled"' in facet_query:
-            facet_query = facet_query.replace('restricted_search:"enabled"', "")
-            if "eov:" in facet_query or 'tags_en:' in facet_query or 'tags_fr:' in facet_query or 'tags:' in facet_query:
-                fq_split = facet_query.split(' ')
+        filter_query = search_params['fq']
+        if 'restricted_search:"enabled"' in filter_query:
+            filter_query = filter_query.replace('restricted_search:"enabled"', "")
+            if "eov:" in filter_query or 'tags_en:' in filter_query or 'tags_fr:' in filter_query or 'tags:' in filter_query:
+                fq_split = filter_query.split(' ')
                 final_query = ""
                 for x in fq_split:
                     if(x.startswith('eov:') and '"' in x):
@@ -93,8 +92,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                     final_query += x + ' '
                 search_params['fq'] = final_query.strip()
             else:
-                search_params['fq'] = facet_query.strip()   
-        log.info(search_params)
+                search_params['fq'] = filter_query.strip()   
         return search_params
 
 
@@ -133,15 +131,4 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
-
-    # Not needed?
-    """
-    def after_show(self,context, pkg_dict):
-        if context['package'].type != 'dataset':
-            return pkg_dict
-        if('user' not in context):
-            log.info("This is before index we're done here.")
-            return pkg_dict
-        return pkg_dict
-    """
     
