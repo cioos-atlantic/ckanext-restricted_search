@@ -8,6 +8,7 @@ import ckanext.restricted_search.cli as cli
 log = logging.getLogger(__name__)
 
 class RestrictedSearchPlugin(plugins.SingletonPlugin):
+    #TODO find out which are no longer required
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IPackageController, inherit=True)
@@ -99,8 +100,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
 
     def after_search(self, search_results, search_params):
         # Gets the current user's ID (or if the user object does not exist, sets user as 'public')
-        log.info("After search")
-        log.info(search_results['search_facets'])
         datasets = search_results['results']
         
         # Checks if the search requires restricted variable checking
@@ -135,13 +134,14 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                     log.info('An error with restricted search occurred')
         return search_results
 
-        
+    # Not needed?
+    """
     def after_show(self,context, pkg_dict):
         if context['package'].type != 'dataset':
             return pkg_dict
         if('user' not in context):
             log.info("This is before index we're done here.")
             return pkg_dict
-        log.info(pkg_dict.keys())
         return pkg_dict
+    """
     
