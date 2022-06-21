@@ -7,6 +7,8 @@
 
 ## Changes
 
+The plugin alters the filter query ('fq') in the dataset search by attaching an additional filter to the data.
+
 The plugin interacts with the following templates and may override or be overridden by any using the following blocks.
 
     scheming/package/read.html
