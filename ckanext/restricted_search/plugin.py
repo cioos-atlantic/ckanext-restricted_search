@@ -4,6 +4,8 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helper
 import ckanext.restricted_search.cli as cli
+from ckanext.spatial.interfaces import ISpatialHarvester
+from ckanext.spatial.validation.validation import BaseValidator
 
 log = logging.getLogger(__name__)
 
@@ -16,6 +18,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions, inherit=True)
     plugins.implements(plugins.IDatasetForm)
     plugins.implements(plugins.IClick)
+    plugins.implements(ISpatialHarvester, inherit=True)
 
     
     def get_commands(self):
@@ -132,3 +135,13 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                     log.info('An error with restricted search occurred')
         return search_results
     
+class MyValidator(BaseValidator):
+
+    name = 'my-validator'
+
+    title= 'My very own validator'
+
+    @classmethod
+    def is_valid(cls, xml):
+
+        return True, []
