@@ -62,7 +62,12 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
 
     def group_facets(self, facets_dict, group_type, package_type, ):
         return facets_dict
-
+        
+    """
+    Hook into before_search
+    If the set string is included in the filter query, duplicate the EOV and keywords fields and 
+        set them in either res_extras_eov_restricted or res_extras_keywords_restricted respectively
+    """
     def before_search(self, search_params):
         if 'fq' not in search_params:
             return search_params
