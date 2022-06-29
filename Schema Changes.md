@@ -13,3 +13,10 @@ The wildcard field is not stored and \*_date and extras_\* are not multivalued w
 
 res_extras was chosen as it was the choice for the extra variables as it made sense to treat them as extra resource fields
 However, it is also a text field instead of string and gets tokenized, unlike the original eov and keyword fields
+
+#Schema changes
+Right now the changes to cioos_siooc_schema.json involve copying the fields for 'keywords' and 'eov' and making another field for each.
+
+These fields are the same as their originals except for the title and field name, as well as not being marked as required.
+
+If any changes are made to either original field (say, more EOVs get added for example), the changes should be copied to the restricted version too
