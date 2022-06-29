@@ -5,6 +5,8 @@ import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helper
 import ckanext.restricted_search.cli as cli
 
+import json
+
 log = logging.getLogger(__name__)
 
 class RestrictedSearchPlugin(plugins.SingletonPlugin):
