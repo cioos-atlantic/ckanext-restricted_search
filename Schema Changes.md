@@ -20,3 +20,6 @@ Right now the changes to cioos_siooc_schema.json involve copying the fields for 
 These fields are the same as their originals except for the title and field name, as well as not being marked as required.
 
 If any changes are made to either original field (say, more EOVs get added for example), the changes should be copied to the restricted version too
+
+#Update 2022-06-29
+As per Matt's recommendations the restricted fields will be moved to extras_

@@ -34,9 +34,6 @@ Requires the following extensions:
 
     ckanext-scheming
 
-
-
-
 ## Installation
 
 **TODO:** Add any additional install steps to the list below.
