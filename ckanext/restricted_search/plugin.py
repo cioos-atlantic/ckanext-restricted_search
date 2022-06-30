@@ -56,7 +56,10 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         return []
 
     # Interfaces
+   # Interfaces
     def dataset_facets(self, facets_dict, package_type):
+        facets_dict['extras_restricted_eov'] = toolkit._('Restricted EOVs')
+        # Some reason facets showing up as an array?
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type, ):
@@ -64,11 +67,15 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
 
     def group_facets(self, facets_dict, group_type, package_type, ):
         return facets_dict
+
+    def before_index(self, data_dict):
+        data_dict['extras_restricted_eov'] = json.loads(data_dict.get('vocab_restricted_eov', '[]'))
+        return data_dict
         
     """
     Hook into before_search
     If the set string is included in the filter query, duplicate the EOV and keywords fields and 
-        set them in either res_extras_eov_restricted or res_extras_keywords_restricted respectively
+        set them in either extras_eov_restricted or extras_keywords_restricted respectively
     """
     def before_search(self, search_params):
         if 'fq' not in search_params:
@@ -82,19 +89,19 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 for x in fq_split:
                     if(x.startswith('eov:') and '"' in x):
                         eov = x.split('"')[1]
-                        eov_restricted = 'res_extras_eov_restricted:"' + eov + '"'
+                        eov_restricted = 'extras_eov_restricted:"' + eov + '"'
                         x= '(eov:"' + eov + '" OR ' + eov_restricted + ')'
                     elif(x.startswith('tags_en:') and '"' in x):
                         tags = x.split('"')[1]
-                        tags_restricted = 'res_extras_keywords_restricted:"' + tags + '"'
+                        tags_restricted = 'extras_keywords_restricted:"' + tags + '"'
                         x= '(tags_en:"' + tags + '" OR ' + tags_restricted + ')'
                     elif(x.startswith('tags_fr:') and '"' in x):
                         tags = x.split('"')[1]
-                        tags_restricted = 'res_extras_keywords_restricted:"' + tags + '"'
+                        tags_restricted = 'extras_keywords_restricted:"' + tags + '"'
                         x= '(tags_fr:"' + tags + '" OR ' + tags_restricted + ')'
                     elif(x.startswith('tags:') and '"' in x):
                         tags = x.split('"')[1]
-                        tags_restricted = 'res_extras_keywords_restricted:"' + tags + '"'
+                        tags_restricted = 'extras_keywords_restricted:"' + tags + '"'
                         x= '(tags:"' + tags + '" OR ' + tags_restricted + ')'
                     final_query += x + ' '
                 search_params['fq'] = final_query.strip()
@@ -113,10 +120,10 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         restricted_search_eovs = []
         restricted_search_keywords = []
         for x in search_params['fq'][0].replace(")","").replace("(", "").split(" "):
-            if(x.startswith('res_extras_eov_restricted')):
+            if(x.startswith('extras_eov_restricted')):
                 restricted_search_eovs.append(x.split('"')[1])
                 restricted_search_enabled = True
-            elif(x.startswith('res_extras_keywords_restricted')):
+            elif(x.startswith('extras_keywords_restricted')):
                 restricted_search_keywords.append(x.split('"')[1])
                 restricted_search_enabled = True
 
@@ -125,14 +132,14 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
             pkg_dict = search_results['results'][x]
             if restricted_search_enabled:
                 try:
-                    if('res_extras_eov_restricted' in pkg_dict):
+                    if('extras_eov_restricted' in pkg_dict):
                         for x in restricted_search_eovs:
-                            if x in pkg_dict['res_extras_eov_restricted']:
+                            if x in pkg_dict['extras_eov_restricted']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
-                    if('res_extras_keywords_restricted' in pkg_dict and 'mark_restricted' not in pkg_dict):
+                    if('extras_keywords_restricted' in pkg_dict and 'mark_restricted' not in pkg_dict):
                         for x in restricted_search_keywords:
-                            if x in pkg_dict['res_extras_keywords_restricted']['en'] or x in pkg_dict['res_extras_keywords_restricted']['fr']:
+                            if x in pkg_dict['extras_keywords_restricted']['en'] or x in pkg_dict['extras_keywords_restricted']['fr']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
                 except:
