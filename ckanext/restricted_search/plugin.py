@@ -58,7 +58,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     # Interfaces
    # Interfaces
     def dataset_facets(self, facets_dict, package_type):
-        facets_dict['extras_restricted_eov'] = toolkit._('Restricted EOVs')
+        facets_dict['extras_eov_restricted'] = toolkit._('Restricted EOVs')
         # Some reason facets showing up as an array?
         return facets_dict
 
@@ -69,7 +69,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
     def before_index(self, data_dict):
-        data_dict['extras_restricted_eov'] = json.loads(data_dict.get('vocab_restricted_eov', '[]'))
+        data_dict['extras_eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
         return data_dict
         
     """
