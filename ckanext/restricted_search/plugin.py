@@ -55,11 +55,13 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         # registers itself as the default (above).
         return []
 
-    # Interfaces
    # Interfaces
+    """
+    Commented out as the restricted field is a 'text' instead of 'string' and gets tokenized
+    Reintroduce if new field set up
+    """
     def dataset_facets(self, facets_dict, package_type):
-        facets_dict['extras_eov_restricted'] = toolkit._('Restricted EOVs')
-        # Some reason facets showing up as an array?
+        # facets_dict['extras_eov_restricted'] = toolkit._('Restricted EOVs')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type, ):
@@ -133,6 +135,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
             if restricted_search_enabled:
                 try:
                     if('extras_eov_restricted' in pkg_dict):
+                        log.info(pkg_dict['extras_eov_restricted'])
                         for x in restricted_search_eovs:
                             if x in pkg_dict['extras_eov_restricted']:
                                 pkg_dict['mark_restricted'] = True

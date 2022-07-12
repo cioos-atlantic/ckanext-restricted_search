@@ -23,3 +23,6 @@ If any changes are made to either original field (say, more EOVs get added for e
 
 #Update 2022-06-29
 As per Matt's recommendations the restricted fields will be moved to extras_
+
+This means that the function to view available and hidden datasets through the facets will need to be changed since text is tokenized, unlike string
+In the future, giving restricted_eov and keywords their own field may be useful
