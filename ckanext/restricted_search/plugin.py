@@ -5,6 +5,8 @@ import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helper
 import ckanext.restricted_search.cli as cli
 
+import json
+
 log = logging.getLogger(__name__)
 
 class RestrictedSearchPlugin(plugins.SingletonPlugin):
@@ -53,8 +55,13 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         # registers itself as the default (above).
         return []
 
-    # Interfaces
+   # Interfaces
+    """
+    Commented out as the restricted field is a 'text' instead of 'string' and gets tokenized
+    Reintroduce if new field set up
+    """
     def dataset_facets(self, facets_dict, package_type):
+        # facets_dict['extras_eov_restricted'] = toolkit._('Restricted EOVs')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type, ):
@@ -63,38 +70,45 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     def group_facets(self, facets_dict, group_type, package_type, ):
         return facets_dict
 
+    def before_index(self, data_dict):
+        data_dict['extras_eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
+        return data_dict
+        
+    """
+    Hook into before_search
+    If the set string is included in the filter query, duplicate the EOV and keywords fields and 
+        set them in either extras_eov_restricted or extras_keywords_restricted respectively
+    """
     def before_search(self, search_params):
-        log.info("before_search")
         if 'fq' not in search_params:
             return search_params
-        facet_query = search_params['fq']
-        if 'restricted_search:"enabled"' in facet_query:
-            facet_query = facet_query.replace('restricted_search:"enabled"', "")
-            if "eov:" in facet_query or 'tags_en:' in facet_query or 'tags_fr:' in facet_query or 'tags:' in facet_query:
-                fq_split = facet_query.split(' ')
+        filter_query = search_params['fq']
+        if 'restricted_search:"enabled"' in filter_query:
+            filter_query = filter_query.replace('restricted_search:"enabled"', "")
+            if "eov:" in filter_query or 'tags_en:' in filter_query or 'tags_fr:' in filter_query or 'tags:' in filter_query:
+                fq_split = filter_query.split(' ')
                 final_query = ""
                 for x in fq_split:
                     if(x.startswith('eov:') and '"' in x):
                         eov = x.split('"')[1]
-                        eov_restricted = 'res_extras_eov_restricted:"' + eov + '"'
+                        eov_restricted = 'extras_eov_restricted:"' + eov + '"'
                         x= '(eov:"' + eov + '" OR ' + eov_restricted + ')'
                     elif(x.startswith('tags_en:') and '"' in x):
                         tags = x.split('"')[1]
-                        tags_restricted = 'res_extras_keywords_restricted:"' + tags + '"'
+                        tags_restricted = 'extras_keywords_restricted:"' + tags + '"'
                         x= '(tags_en:"' + tags + '" OR ' + tags_restricted + ')'
                     elif(x.startswith('tags_fr:') and '"' in x):
                         tags = x.split('"')[1]
-                        tags_restricted = 'res_extras_keywords_restricted:"' + tags + '"'
+                        tags_restricted = 'extras_keywords_restricted:"' + tags + '"'
                         x= '(tags_fr:"' + tags + '" OR ' + tags_restricted + ')'
                     elif(x.startswith('tags:') and '"' in x):
                         tags = x.split('"')[1]
-                        tags_restricted = 'res_extras_keywords_restricted:"' + tags + '"'
+                        tags_restricted = 'extras_keywords_restricted:"' + tags + '"'
                         x= '(tags:"' + tags + '" OR ' + tags_restricted + ')'
                     final_query += x + ' '
                 search_params['fq'] = final_query.strip()
             else:
-                search_params['fq'] = facet_query.strip()   
-        log.info(search_params)
+                search_params['fq'] = filter_query.strip()   
         return search_params
 
 
@@ -108,10 +122,10 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         restricted_search_eovs = []
         restricted_search_keywords = []
         for x in search_params['fq'][0].replace(")","").replace("(", "").split(" "):
-            if(x.startswith('res_extras_eov_restricted')):
+            if(x.startswith('extras_eov_restricted')):
                 restricted_search_eovs.append(x.split('"')[1])
                 restricted_search_enabled = True
-            elif(x.startswith('res_extras_keywords_restricted')):
+            elif(x.startswith('extras_keywords_restricted')):
                 restricted_search_keywords.append(x.split('"')[1])
                 restricted_search_enabled = True
 
@@ -120,28 +134,18 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
             pkg_dict = search_results['results'][x]
             if restricted_search_enabled:
                 try:
-                    if('res_extras_eov_restricted' in pkg_dict):
+                    if('extras_eov_restricted' in pkg_dict):
+                        log.info(pkg_dict['extras_eov_restricted'])
                         for x in restricted_search_eovs:
-                            if x in pkg_dict['res_extras_eov_restricted']:
+                            if x in pkg_dict['extras_eov_restricted']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
-                    if('res_extras_keywords_restricted' in pkg_dict and 'mark_restricted' not in pkg_dict):
+                    if('extras_keywords_restricted' in pkg_dict and 'mark_restricted' not in pkg_dict):
                         for x in restricted_search_keywords:
-                            if x in pkg_dict['res_extras_keywords_restricted']['en'] or x in pkg_dict['res_extras_keywords_restricted']['fr']:
+                            if x in pkg_dict['extras_keywords_restricted']['en'] or x in pkg_dict['extras_keywords_restricted']['fr']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
-
-    # Not needed?
-    """
-    def after_show(self,context, pkg_dict):
-        if context['package'].type != 'dataset':
-            return pkg_dict
-        if('user' not in context):
-            log.info("This is before index we're done here.")
-            return pkg_dict
-        return pkg_dict
-    """
     

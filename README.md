@@ -5,13 +5,9 @@
 **TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
 
 
-## Requirements
+## Changes
 
-This plugin is compatible with CKAN 2.9 or later
-
-Requires the following extensions:
-
-    ckanext-scheming
+The plugin alters the filter query ('fq') in the dataset search by attaching an additional filter to the data.
 
 The plugin interacts with the following templates and may override or be overridden by any using the following blocks.
 
@@ -24,6 +20,19 @@ The plugin interacts with the following templates and may override or be overrid
         block search_facets
         block search_sortby
 
+It also provides a alternate cioos_siooc_schema.json that adds two new fields:
+    res_extras_eov_restricted and res_extras_keywords_restricted
+The fields are direct copies of the 'eov' and 'keywords' fields in the original schema except with the field_name and label updated to match the new field name and 'required' set to false
+
+Should any changes be made to the original cioos_siooc_schema.json ([Found here](https://github.com/cioos-siooc/cioos-siooc-schema/blob/master/cioos-siooc_schema.json)), the schema in this plugin should be updated to match. The two new fields can be copied into the new schema under the 'eov' section, unless the 'keywords' or 'eov' sections have changed. In that case copy the new changes into two new fields and follow the instructions detailed in the paragraph above.
+
+## Requirements
+
+This plugin is compatible with CKAN 2.9 or later
+
+Requires the following extensions:
+
+    ckanext-scheming
 
 ## Installation
 

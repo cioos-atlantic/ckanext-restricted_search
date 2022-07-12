@@ -304,7 +304,7 @@
       ]
     },
     {
-      "field_name": "res_extras_keywords_restricted",
+      "field_name": "extras_keywords_restricted",
       "preset": "fluent_tags",
       "display_snippet": null,
       "required": false,
@@ -319,7 +319,7 @@
       }
     },
     {
-      "field_name": "res_extras_eov_restricted",
+      "field_name": "extras_eov_restricted",
       "label": "Ocean Variables (Restricted)",
       "preset": "multiple_select",
       "required": false,
