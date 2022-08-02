@@ -20,7 +20,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions, inherit=True)
     plugins.implements(plugins.IDatasetForm)
     plugins.implements(plugins.IClick)
-    plugins.implements(ISpatialHarvester, inherit=True)
+    plugins.implements(ISpatialHarvester, inherit=True) 
 
     
     def get_commands(self):
@@ -74,8 +74,24 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
     def before_index(self, data_dict):
-        data_dict['extras_eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
+        data_dict['eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
         return data_dict
+
+    """This section is for the harvester
+    The harvester should be able to recognize the thesaurus for restricted EOVs and Keywords and provide them with extras_restricted
+        fields instead of putting them in the standard keywords and EOV fields
+    """
+    def get_package_dict(self, context, data_dict):
+        log.info("package dict is being retrieved")
+        log.info(context)
+        log.info(data_dict)
+        # Go through the XML fields
+        # If thesaurus in the XML is marked as restricted keywords
+            # Add to extras_restricted_keywords
+        # Or if thesaurus in the XML is marked as restricted EOVs  
+            # Add to extras_restricted_EOV
+        return data_dict
+    """This ends the harvester section"""
         
     """
     Hook into before_search
@@ -114,6 +130,10 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 search_params['fq'] = filter_query.strip()   
         return search_params
 
+    # IPackageController -> When displaying a dataset
+    def after_show(self,context, pkg_dict):
+        log.info(pkg_dict)
+        return pkg_dict
 
     def after_search(self, search_results, search_params):
         # Gets the current user's ID (or if the user object does not exist, sets user as 'public')
@@ -139,6 +159,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 try:
                     if('extras_eov_restricted' in pkg_dict):
                         log.info(pkg_dict['extras_eov_restricted'])
+                        log.info(restricted_search_eovs)
                         for x in restricted_search_eovs:
                             if x in pkg_dict['extras_eov_restricted']:
                                 pkg_dict['mark_restricted'] = True
@@ -148,6 +169,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                             if x in pkg_dict['extras_keywords_restricted']['en'] or x in pkg_dict['extras_keywords_restricted']['fr']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
+                    log.info('mark_restricted' in pkg_dict)
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
