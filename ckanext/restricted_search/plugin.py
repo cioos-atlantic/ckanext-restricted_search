@@ -244,6 +244,89 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                     log.info('An error with restricted search occurred')
         return search_results
 
+class RestrictedHarvestPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IActions, inherit=True)
+    plugins.implements(plugins.IDatasetForm)
+    plugins.implements(ISpatialHarvester, inherit=True) 
+
+
+    # IConfigurer
+    # ITemplateHelpers
+    """
+    Required by CKAN
+    """
+    def get_helpers(self):
+        return {
+        }
+
+    """
+    Required by CKAN
+    """
+    def update_config(self, config_):
+        toolkit.add_resource('fanstatic',
+            'restricted_harvest')
+
+    """
+    Required by CKAN
+    """
+    def get_actions(self):
+        return {}
+
+        
+    """
+    Required by CKAN
+    """
+    def is_fallback(self):
+        # Return True to register this plugin as the default handler for
+        # package types not handled by any other IDatasetForm plugin.
+        return False
+
+    """
+    Required by CKAN
+    """
+    def package_types(self):
+        # This plugin doesn't handle any special package types, it just
+        # registers itself as the default (above).
+        return []
+
+    def get_package_dict(self, context, data_dict):
+        log.info("package dict is being retrieved")
+        pkg_dict = data_dict['package_dict']
+        iso_values = data_dict['iso_values']
+        harvest_object = data_dict['harvest_object']
+        source_config = json.loads(data_dict['harvest_object'].source.config)
+        """
+        """
+        #log.info(pkg_dict)
+        log.info(harvest_object.content)
+        ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
+        ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
+        tree = ET.fromstring(harvest_object.content)
+        log.info(tree)
+        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
+        keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
+        extras_keywords_restricted = {'en':[], 'fr':[]}
+        if 'extras_keywords_restricted' in pkg_dict:
+            extras_keywords_restricted = pkg_dict["extras_keywords_restricted"]
+        
+        #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
+        for k in keywords:
+            # Find the one that has a class of restricted keywords, remove the rest
+            keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
+            if(keyword_root):
+                log.info("Found restricted keywords")
+                
+                restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
+                for r in restricted_keywords:
+                    log.info(r.text)
+                    extras_keywords_restricted['en'].append(r.text)
+
+        log.info(extras_keywords_restricted)
+        pkg_dict['extras_keywords_restricted'] = extras_keywords_restricted
+
+        return pkg_dict
 
 # place holder, spatial extension expects a validator to be present
 class MyValidator(BaseValidator):

@@ -85,6 +85,7 @@ setup(
     entry_points='''
         [ckan.plugins]
         restricted_search=ckanext.restricted_search.plugin:RestrictedSearchPlugin
+        restricted_harvest=ckanext.restricted_search.plugin:RestrictedHarvestPlugin
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
