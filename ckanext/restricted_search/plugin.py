@@ -6,6 +6,8 @@ import ckan.lib.helpers as helper
 import ckanext.restricted_search.cli as cli
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.spatial.validation.validation import BaseValidator
+from ckanext.cioos_harvest import plugin as harvester
+import xml.etree.ElementTree as ET
 
 import json
 
@@ -83,14 +85,50 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     """
     def get_package_dict(self, context, data_dict):
         log.info("package dict is being retrieved")
-        log.info(context)
-        log.info(data_dict)
+        pkg_dict = data_dict['package_dict']
+        iso_values = data_dict['iso_values']
+        harvest_object = data_dict['harvest_object']
+        source_config = json.loads(data_dict['harvest_object'].source.config)
+        """
+        """
+        #log.info(pkg_dict)
+        log.info(harvest_object.content)
+        ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
+        ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
+        tree = ET.fromstring(harvest_object.content)
+        log.info(tree)
+        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
+        keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
+        extras_keywords_restricted = {'en':[], 'fr':[]}
+        if 'extras_keywords_restricted' in pkg_dict:
+            extras_keywords_restricted = pkg_dict["extras_keywords_restricted"]
+        
+        #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
+        for k in keywords:
+            # Find the one that has a class of restricted keywords, remove the rest
+            keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
+            if(keyword_root):
+                log.info("Found restricted keywords")
+                
+                restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
+                for r in restricted_keywords:
+                    log.info(r.text)
+                    extras_keywords_restricted['en'].append(r.text)
+
+        log.info(extras_keywords_restricted)
+        pkg_dict['extras_keywords_restricted'] = extras_keywords_restricted
         # Go through the XML fields
         # If thesaurus in the XML is marked as restricted keywords
             # Add to extras_restricted_keywords
         # Or if thesaurus in the XML is marked as restricted EOVs  
             # Add to extras_restricted_EOV
-        return data_dict
+        # Check if descriptive keywords has a section for restricted and if so remove from current tags and add to new?
+        # If the rest of the harvest can be left unchanged that works perfectly
+        # Also might be able to modify in show if the tag grabs more information than needed
+        # Use XPath, grab the metadata, remove from tags and add to new field
+
+
+        return pkg_dict
     """This ends the harvester section"""
         
     """
@@ -132,7 +170,39 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
 
     # IPackageController -> When displaying a dataset
     def after_show(self,context, pkg_dict):
-        log.info(pkg_dict)
+        #log.info(pkg_dict)
+        """
+        harvest_object = pkg_dict['harvest_document_content']
+        log.info(harvest_object)
+        ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
+        ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
+        tree = ET.fromstring(harvest_object)
+        log.info(tree)
+        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
+        keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
+        extras_keyword_restricted = []
+        if 'extras_keyword_restricted' in pkg_dict:
+            extras_keyword_restricted = pkg_dict["extras_keyword_restricted"]
+        
+        #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
+        for k in keywords:
+            # Find the one that has a class of restricted keywords, remove the rest
+            keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
+            if(keyword_root):
+                log.info("Found restricted keywords")
+                
+                restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
+                for r in restricted_keywords:
+                    log.info(r.text)
+                    extras_keyword_restricted.append(r.text)
+
+        log.info(extras_keyword_restricted)
+        pkg_dict["extras_keyword_restricted"] = extras_keyword_restricted
+        """
+        if 'extras_keywords_restricted' in pkg_dict:
+            log.info(pkg_dict['extras_keywords_restricted'])
+        else:
+            log.info("No restricted vars here")
         return pkg_dict
 
     def after_search(self, search_results, search_params):
@@ -173,12 +243,13 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
-    
+
+
+# place holder, spatial extension expects a validator to be present
 class MyValidator(BaseValidator):
 
     name = 'my-validator'
-
-    title= 'My very own validator'
+    title = 'My very own validator'
 
     @classmethod
     def is_valid(cls, xml):
