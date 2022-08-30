@@ -1,3 +1,4 @@
+from ast import keyword
 import logging
 
 import ckan.plugins as plugins
@@ -8,10 +9,12 @@ from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.spatial.validation.validation import BaseValidator
 from ckanext.cioos_harvest import plugin as harvester
 import xml.etree.ElementTree as ET
+from ckanext.scheming.validation import scheming_validator
 
 import json
 
 log = logging.getLogger(__name__)
+
 
 class RestrictedSearchPlugin(plugins.SingletonPlugin):
     #TODO find out which are no longer required
@@ -82,21 +85,16 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     """This section is for the harvester
     The harvester should be able to recognize the thesaurus for restricted EOVs and Keywords and provide them with extras_restricted
         fields instead of putting them in the standard keywords and EOV fields
-    """
     def get_package_dict(self, context, data_dict):
         log.info("package dict is being retrieved")
         pkg_dict = data_dict['package_dict']
         iso_values = data_dict['iso_values']
         harvest_object = data_dict['harvest_object']
         source_config = json.loads(data_dict['harvest_object'].source.config)
-        """
-        """
         #log.info(pkg_dict)
-        log.info(harvest_object.content)
         ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
         ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
         tree = ET.fromstring(harvest_object.content)
-        log.info(tree)
         namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
         keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
         extras_keywords_restricted = {'en':[], 'fr':[]}
@@ -112,24 +110,12 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 
                 restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
                 for r in restricted_keywords:
-                    log.info(r.text)
                     extras_keywords_restricted['en'].append(r.text)
 
         log.info(extras_keywords_restricted)
         pkg_dict['extras_keywords_restricted'] = extras_keywords_restricted
-        # Go through the XML fields
-        # If thesaurus in the XML is marked as restricted keywords
-            # Add to extras_restricted_keywords
-        # Or if thesaurus in the XML is marked as restricted EOVs  
-            # Add to extras_restricted_EOV
-        # Check if descriptive keywords has a section for restricted and if so remove from current tags and add to new?
-        # If the rest of the harvest can be left unchanged that works perfectly
-        # Also might be able to modify in show if the tag grabs more information than needed
-        # Use XPath, grab the metadata, remove from tags and add to new field
-
-
         return pkg_dict
-    """This ends the harvester section"""
+        """
         
     """
     Hook into before_search
@@ -171,34 +157,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     # IPackageController -> When displaying a dataset
     def after_show(self,context, pkg_dict):
         #log.info(pkg_dict)
-        """
-        harvest_object = pkg_dict['harvest_document_content']
-        log.info(harvest_object)
-        ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
-        ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
-        tree = ET.fromstring(harvest_object)
-        log.info(tree)
-        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
-        keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
-        extras_keyword_restricted = []
-        if 'extras_keyword_restricted' in pkg_dict:
-            extras_keyword_restricted = pkg_dict["extras_keyword_restricted"]
-        
-        #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
-        for k in keywords:
-            # Find the one that has a class of restricted keywords, remove the rest
-            keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
-            if(keyword_root):
-                log.info("Found restricted keywords")
-                
-                restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
-                for r in restricted_keywords:
-                    log.info(r.text)
-                    extras_keyword_restricted.append(r.text)
-
-        log.info(extras_keyword_restricted)
-        pkg_dict["extras_keyword_restricted"] = extras_keyword_restricted
-        """
         if 'extras_keywords_restricted' in pkg_dict:
             log.info(pkg_dict['extras_keywords_restricted'])
         else:
@@ -243,6 +201,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
+
 
 class RestrictedHarvestPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -292,49 +251,198 @@ class RestrictedHarvestPlugin(plugins.SingletonPlugin):
         return []
 
     def get_package_dict(self, context, data_dict):
-        log.info("package dict is being retrieved")
+        log.info("Getting pkg dict")
         pkg_dict = data_dict['package_dict']
         iso_values = data_dict['iso_values']
         harvest_object = data_dict['harvest_object']
         source_config = json.loads(data_dict['harvest_object'].source.config)
-        """
-        """
-        #log.info(pkg_dict)
-        log.info(harvest_object.content)
+
         ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
         ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
+        ET.register_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+        ET.register_namespace('lan', 'http://standards.iso.org/iso/19115/-3/lan/1.0')
         tree = ET.fromstring(harvest_object.content)
-        log.info(tree)
-        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
-        keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
-        extras_keywords_restricted = {'en':[], 'fr':[]}
+        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0',
+            'xsi': 'http://www.w3.org/2001/XMLSchema-instance', 'lan': 'http://standards.iso.org/iso/19115/-3/lan/1.0'}
+        harvest_keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
+        open_keywords = pkg_dict['keywords']
+        restricted_keywords = {'en':[], 'fr':[]}
+        #open_eov = pkg_dict['eov']
+        #restricted_eov = []
         if 'extras_keywords_restricted' in pkg_dict:
-            extras_keywords_restricted = pkg_dict["extras_keywords_restricted"]
+            restricted_keywords = pkg_dict["extras_keywords_restricted"]
+        #if 'extras_eov_restricted' in pkg_dict:
+            #restricted_eov = pkg_dict["extras_eov_restricted"]
         
         #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
-        for k in keywords:
+        for k in harvest_keywords:
             # Find the one that has a class of restricted keywords, remove the rest
             keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
             if(keyword_root):
-                log.info("Found restricted keywords")
-                
-                restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
-                for r in restricted_keywords:
+                harvest_restricted_keywords_en = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
+                for r in harvest_restricted_keywords_en:
+                    if r.text in open_keywords['en']:
+                        open_keywords['en'].remove(r.text)
+                        restricted_keywords['en'].append(r.text)
+                    #if r.text in open_eov:
+                        #open_eov.remove(r.text)
+                        #restricted_eov.append(r.text)
+                harvest_restricted_keywords_fr = k.findall(".//mri:MD_Keywords/mri:keyword/lan:PT_FreeText/lan:textGroup/lan:LocalisedCharacterString", namespaces)
+                for r in harvest_restricted_keywords_fr:
                     log.info(r.text)
-                    extras_keywords_restricted['en'].append(r.text)
-
-        log.info(extras_keywords_restricted)
-        pkg_dict['extras_keywords_restricted'] = extras_keywords_restricted
-
+                    if r.text in open_keywords['fr']:
+                        open_keywords['fr'].remove(r.text)
+                        restricted_keywords['fr'].append(r.text)
+        #log.info(restricted_eov)
+        pkg_dict['keywords'] = open_keywords
+        #pkg_dict['eov'] = open_eov
+        pkg_dict['extras_keywords_restricted'] = restricted_keywords
+        #pkg_dict['extras_eov_restricted'] = restricted_eov
         return pkg_dict
+
+class RestrictedHarvestValidatorPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IActions, inherit=True)
+    plugins.implements(plugins.IDatasetForm)
+    plugins.implements(plugins.IValidators)
+
+
+    # IConfigurer
+    # ITemplateHelpers
+    """
+    Required by CKAN
+    """
+    def get_helpers(self):
+        return {
+        }
+
+    def get_validators(self):
+        # For some reason returning it outside the variable causes spatial to think it's being passed a string
+        #validators = {'cioos_clean_and_populate_restricted_eovs': clean_and_populate_restricted_eovs}
+        #return validators
+        return {'cioos_clean_and_populate_restricted_eovs':clean_and_populate_restricted_eovs}
+
+    """
+    Required by CKAN
+    """
+    def update_config(self, config_):
+        toolkit.add_resource('fanstatic',
+            'restricted_harvest')
+
+    """
+    Required by CKAN
+    """
+    def get_actions(self):
+        return {}
+
+        
+    """
+    Required by CKAN
+    """
+    def is_fallback(self):
+        # Return True to register this plugin as the default handler for
+        # package types not handled by any other IDatasetForm plugin.
+        return False
+
+    """
+    Required by CKAN
+    """
+    def package_types(self):
+        # This plugin doesn't handle any special package types, it just
+        # registers itself as the default (above).
+        return []
 
 # place holder, spatial extension expects a validator to be present
 class MyValidator(BaseValidator):
 
-    name = 'my-validator'
+    name = 'MyValidator'
     title = 'My very own validator'
 
     @classmethod
     def is_valid(cls, xml):
 
         return True, []
+    
+
+
+# IValidators
+
+# this validator tries to populate eov from keywords. It looks for any english
+# keywords that match either the value or label in the choice list for the eov
+# field and add's them to the eov field.
+# Validator adapted from: https://github.com/cioos-siooc/ckanext-cioos_theme/blob/master/ckanext/cioos_theme/plugin.py#L108
+#   except to be used with the restricted keyword field instead and the field can be empty
+@scheming_validator
+def clean_and_populate_restricted_eovs(field, schema):
+
+    log.info("In validator")
+    def validator(key, data, errors, context):
+        keywords_main = data.get(('extras_keywords_restricted',), {})
+        log.info(keywords_main)
+        if keywords_main:
+            eov_data = keywords_main.get('en', [])
+        else:
+            #extras = data.get(("__extras", ), {})
+            #eov_data = extras.get('keywords-en', '').split(',')
+            return data
+
+        eov_list = {}
+        for x in toolkit.h.scheming_field_choices(toolkit.h.scheming_field_by_name(schema['dataset_fields'], 'eov')):
+            eov_list[x['value'].lower()] = x['value']
+            eov_list[x['label'].lower()] = x['value']
+
+        log.info(eov_data)
+        d = json.loads(data.get(key, '[]'))
+        for x in eov_data:
+            if isinstance(x, str):  # TODO: change basestring to str when moving to python 3
+                val = eov_list.get(x.lower(), '')
+            else:
+                val = eov_list.get(x, '')
+            if val and val not in d:
+                d.append(val)
+
+        data[key] = json.dumps(d)
+        return data
+    return validator
+
+"""
+# place holder, spatial extension expects a validator to be present
+class clean_and_populate_restricted_eovs(BaseValidator):
+
+    name = 'clean_and_populate_restricted_eovs'
+    title = 'Test'
+
+    def clean_and_populate_restricted_eovs(field, schema):
+
+        def validator(key, data, errors, context):
+            keywords_main = data.get(('extras_keywords_restricted',), {})
+            if keywords_main:
+                eov_data = keywords_main.get('en', [])
+            else:
+                #extras = data.get(("__extras", ), {})
+                #eov_data = extras.get('keywords-en', '').split(',')
+                return data
+
+            eov_list = {}
+            for x in toolkit.h.scheming_field_choices(toolkit.h.scheming_field_by_name(schema['dataset_fields'], 'eov')):
+                eov_list[x['value'].lower()] = x['value']
+                eov_list[x['label'].lower()] = x['value']
+
+            log.info(key)
+            log.info(data)
+            log.info(eov_list)
+            d = json.loads(data.get(key, '[]'))
+            for x in eov_data:
+                if isinstance(x, str):  # TODO: change basestring to str when moving to python 3
+                    val = eov_list.get(x.lower(), '')
+                else:
+                    val = eov_list.get(x, '')
+                if val and val not in d:
+                    d.append(val)
+
+            data[key] = json.dumps(d)
+            return data
+
+        return validator
+        """
