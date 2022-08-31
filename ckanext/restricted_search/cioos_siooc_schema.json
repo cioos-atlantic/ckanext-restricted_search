@@ -323,7 +323,7 @@
       "label": "Ocean Variables (Restricted)",
       "preset": "multiple_select",
       "required": false,
-      "validators": "scheming_multiple_choice",
+      "validators": "scheming_multiple_choice cioos_clean_and_populate_restricted_eovs",
       "choices": [{
           "category": "Biogeochemical",
           "value": "oxygen",
