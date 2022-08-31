@@ -81,41 +81,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     def before_index(self, data_dict):
         data_dict['eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
         return data_dict
-
-    """This section is for the harvester
-    The harvester should be able to recognize the thesaurus for restricted EOVs and Keywords and provide them with extras_restricted
-        fields instead of putting them in the standard keywords and EOV fields
-    def get_package_dict(self, context, data_dict):
-        log.info("package dict is being retrieved")
-        pkg_dict = data_dict['package_dict']
-        iso_values = data_dict['iso_values']
-        harvest_object = data_dict['harvest_object']
-        source_config = json.loads(data_dict['harvest_object'].source.config)
-        #log.info(pkg_dict)
-        ET.register_namespace('mri', 'http://standards.iso.org/iso/19115/-3/mri/1.0')
-        ET.register_namespace('gco', 'http://standards.iso.org/iso/19115/-3/gco/1.0')
-        tree = ET.fromstring(harvest_object.content)
-        namespaces = {'mri':'http://standards.iso.org/iso/19115/-3/mri/1.0', 'gco':'http://standards.iso.org/iso/19115/-3/gco/1.0'}
-        keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
-        extras_keywords_restricted = {'en':[], 'fr':[]}
-        if 'extras_keywords_restricted' in pkg_dict:
-            extras_keywords_restricted = pkg_dict["extras_keywords_restricted"]
-        
-        #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
-        for k in keywords:
-            # Find the one that has a class of restricted keywords, remove the rest
-            keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
-            if(keyword_root):
-                log.info("Found restricted keywords")
-                
-                restricted_keywords = k.findall(".//mri:MD_Keywords/mri:keyword/gco:CharacterString", namespaces)
-                for r in restricted_keywords:
-                    extras_keywords_restricted['en'].append(r.text)
-
-        log.info(extras_keywords_restricted)
-        pkg_dict['extras_keywords_restricted'] = extras_keywords_restricted
-        return pkg_dict
-        """
         
     """
     Hook into before_search
@@ -156,11 +121,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
 
     # IPackageController -> When displaying a dataset
     def after_show(self,context, pkg_dict):
-        #log.info(pkg_dict)
-        if 'extras_keywords_restricted' in pkg_dict:
-            log.info(pkg_dict['extras_keywords_restricted'])
-        else:
-            log.info("No restricted vars here")
         return pkg_dict
 
     def after_search(self, search_results, search_params):
@@ -197,7 +157,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                             if x in pkg_dict['extras_keywords_restricted']['en'] or x in pkg_dict['extras_keywords_restricted']['fr']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
-                    log.info('mark_restricted' in pkg_dict)
                 except:
                     log.info('An error with restricted search occurred')
         return search_results
@@ -267,14 +226,9 @@ class RestrictedHarvestPlugin(plugins.SingletonPlugin):
         harvest_keywords = tree.findall(".//mri:descriptiveKeywords", namespaces)
         open_keywords = pkg_dict['keywords']
         restricted_keywords = {'en':[], 'fr':[]}
-        #open_eov = pkg_dict['eov']
-        #restricted_eov = []
         if 'extras_keywords_restricted' in pkg_dict:
             restricted_keywords = pkg_dict["extras_keywords_restricted"]
-        #if 'extras_eov_restricted' in pkg_dict:
-            #restricted_eov = pkg_dict["extras_eov_restricted"]
         
-        #keywords = tree.findall(".//mri:MD_Keywords/mri:keywordClass/mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
         for k in harvest_keywords:
             # Find the one that has a class of restricted keywords, remove the rest
             keyword_root = k.find(".//mri:MD_KeywordClass/mri:className[gco:CharacterString='Restricted Keywords']", namespaces)
@@ -284,20 +238,13 @@ class RestrictedHarvestPlugin(plugins.SingletonPlugin):
                     if r.text in open_keywords['en']:
                         open_keywords['en'].remove(r.text)
                         restricted_keywords['en'].append(r.text)
-                    #if r.text in open_eov:
-                        #open_eov.remove(r.text)
-                        #restricted_eov.append(r.text)
                 harvest_restricted_keywords_fr = k.findall(".//mri:MD_Keywords/mri:keyword/lan:PT_FreeText/lan:textGroup/lan:LocalisedCharacterString", namespaces)
                 for r in harvest_restricted_keywords_fr:
-                    log.info(r.text)
                     if r.text in open_keywords['fr']:
                         open_keywords['fr'].remove(r.text)
                         restricted_keywords['fr'].append(r.text)
-        #log.info(restricted_eov)
         pkg_dict['keywords'] = open_keywords
-        #pkg_dict['eov'] = open_eov
         pkg_dict['extras_keywords_restricted'] = restricted_keywords
-        #pkg_dict['extras_eov_restricted'] = restricted_eov
         return pkg_dict
 
 class RestrictedHarvestValidatorPlugin(plugins.SingletonPlugin):
@@ -352,20 +299,7 @@ class RestrictedHarvestValidatorPlugin(plugins.SingletonPlugin):
         # This plugin doesn't handle any special package types, it just
         # registers itself as the default (above).
         return []
-
-# place holder, spatial extension expects a validator to be present
-class MyValidator(BaseValidator):
-
-    name = 'MyValidator'
-    title = 'My very own validator'
-
-    @classmethod
-    def is_valid(cls, xml):
-
-        return True, []
     
-
-
 # IValidators
 
 # this validator tries to populate eov from keywords. It looks for any english
@@ -375,16 +309,11 @@ class MyValidator(BaseValidator):
 #   except to be used with the restricted keyword field instead and the field can be empty
 @scheming_validator
 def clean_and_populate_restricted_eovs(field, schema):
-
-    log.info("In validator")
     def validator(key, data, errors, context):
         keywords_main = data.get(('extras_keywords_restricted',), {})
-        log.info(keywords_main)
         if keywords_main:
             eov_data = keywords_main.get('en', [])
         else:
-            #extras = data.get(("__extras", ), {})
-            #eov_data = extras.get('keywords-en', '').split(',')
             return data
 
         eov_list = {}
@@ -405,44 +334,3 @@ def clean_and_populate_restricted_eovs(field, schema):
         data[key] = json.dumps(d)
         return data
     return validator
-
-"""
-# place holder, spatial extension expects a validator to be present
-class clean_and_populate_restricted_eovs(BaseValidator):
-
-    name = 'clean_and_populate_restricted_eovs'
-    title = 'Test'
-
-    def clean_and_populate_restricted_eovs(field, schema):
-
-        def validator(key, data, errors, context):
-            keywords_main = data.get(('extras_keywords_restricted',), {})
-            if keywords_main:
-                eov_data = keywords_main.get('en', [])
-            else:
-                #extras = data.get(("__extras", ), {})
-                #eov_data = extras.get('keywords-en', '').split(',')
-                return data
-
-            eov_list = {}
-            for x in toolkit.h.scheming_field_choices(toolkit.h.scheming_field_by_name(schema['dataset_fields'], 'eov')):
-                eov_list[x['value'].lower()] = x['value']
-                eov_list[x['label'].lower()] = x['value']
-
-            log.info(key)
-            log.info(data)
-            log.info(eov_list)
-            d = json.loads(data.get(key, '[]'))
-            for x in eov_data:
-                if isinstance(x, str):  # TODO: change basestring to str when moving to python 3
-                    val = eov_list.get(x.lower(), '')
-                else:
-                    val = eov_list.get(x, '')
-                if val and val not in d:
-                    d.append(val)
-
-            data[key] = json.dumps(d)
-            return data
-
-        return validator
-        """
