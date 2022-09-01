@@ -1,5 +1,3 @@
-[![Tests](https://github.com/JaredMcLellan/ckanext-restricted_search/workflows/Tests/badge.svg?branch=main)](https://github.com/JaredMcLellan/ckanext-restricted_search/actions)
-
 # ckanext-restricted_search
 
 **TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
@@ -21,10 +19,16 @@ The plugin interacts with the following templates and may override or be overrid
         block search_sortby
 
 It also provides a alternate cioos_siooc_schema.json that adds two new fields:
-    res_extras_eov_restricted and res_extras_keywords_restricted
+    extras_eov_restricted and extras_keywords_restricted
 The fields are direct copies of the 'eov' and 'keywords' fields in the original schema except with the field_name and label updated to match the new field name and 'required' set to false
 
-Should any changes be made to the original cioos_siooc_schema.json ([Found here](https://github.com/cioos-siooc/cioos-siooc-schema/blob/master/cioos-siooc_schema.json)), the schema in this plugin should be updated to match. The two new fields can be copied into the new schema under the 'eov' section, unless the 'keywords' or 'eov' sections have changed. In that case copy the new changes into two new fields and follow the instructions detailed in the paragraph above.
+Should any changes be made to the original cioos_siooc_schema.json the schema in this plugin should be updated to match. The two new fields can be copied into the new schema under the 'eov' section, unless the 'keywords' or 'eov' sections have changed. In that case copy the new changes into two new fields and follow the instructions detailed in the paragraph above.
+
+Found here : https://github.com/cioos-siooc/cioos-siooc-schema/blob/master/cioos-siooc_schema.json 
+
+The plugin also enables CKAN to process XMLs with keywords tagged as restricted. 
+
+See the page here for more details: https://github.com/cioos-atlantic/restricted_search/wiki/Metadata
 
 ## Requirements
 
@@ -33,12 +37,9 @@ This plugin is compatible with CKAN 2.9 or later
 Requires the following extensions:
 
     ckanext-scheming
+    ckanext-spatial
 
 ## Installation
-
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-restricted_search:
 
@@ -54,13 +55,18 @@ To install ckanext-restricted_search:
 	pip install -r requirements.txt
     python setup.py develop
 
-3. Add `restricted_search` to the `ckan.plugins` setting in your CKAN
+3. Add the three plugin files to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
-   `/etc/ckan/default/ckan.ini`).
+   `/etc/ckan/default/ckan.ini`). `restricted_search` should go before any
+   other plugins that affect templates or themes. `restricted_harvest` and 
+   `restricted_harvest_validator` should be placed after any other 
+   harvester plugins.
 
 4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
      sudo service apache2 reload
+     
+5. If running separately, you may also have to restart the CKAN harvesters
 
 
 ## Config settings
@@ -70,13 +76,6 @@ If using ckanext-scheming plugins such as scheming_datasets or scheming_organiza
 If using the CIOOS schema, set the dataset scheming in the config file to use the one provided by the plugin:
 
     scheming.dataset_schemas = ckanext.scheming:cioos_siooc_schema.json
-
-
-**TODO:** Document any optional config settings here. For example:
-
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.restricted_search.some_setting = some_default_value
 
 
 ## Developer installation
