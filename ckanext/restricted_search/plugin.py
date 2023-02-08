@@ -79,7 +79,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
     def before_index(self, data_dict):
-        data_dict['eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
+        data_dict['extras_eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '') or 'null')
         return data_dict
         
     """
