@@ -79,13 +79,13 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
     def before_index(self, data_dict):
-        data_dict['eov_restricted'] = json.loads(data_dict.get('extras_eov_restricted', '[]'))
+        data_dict['vocab_eov_restricted'] = json.loads(data_dict.get('vocab_eov_restricted', '') or 'null')
         return data_dict
         
     """
     Hook into before_search
     If the set string is included in the filter query, duplicate the EOV and keywords fields and 
-        set them in either extras_eov_restricted or extras_keywords_restricted respectively
+        set them in either vocab_eov_restricted or extras_keywords_restricted respectively
     """
     def before_search(self, search_params):
         if 'fq' not in search_params:
@@ -99,7 +99,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
                 for x in fq_split:
                     if(x.startswith('eov:') and '"' in x):
                         eov = x.split('"')[1]
-                        eov_restricted = 'extras_eov_restricted:"' + eov + '"'
+                        eov_restricted = 'vocab_eov_restricted:"' + eov + '"'
                         x= '(eov:"' + eov + '" OR ' + eov_restricted + ')'
                     elif(x.startswith('tags_en:') and '"' in x):
                         tags = x.split('"')[1]
@@ -132,8 +132,9 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         restricted_search_enabled = False
         restricted_search_eovs = []
         restricted_search_keywords = []
+        log.info(search_params)
         for x in search_params['fq'][0].replace(")","").replace("(", "").split(" "):
-            if(x.startswith('extras_eov_restricted')):
+            if(x.startswith('vocab_eov_restricted')):
                 restricted_search_eovs.append(x.split('"')[1])
                 restricted_search_enabled = True
             elif(x.startswith('extras_keywords_restricted')):
@@ -143,13 +144,14 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         # Go through each of the datasets returned in the results
         for x in range(len(datasets)):
             pkg_dict = search_results['results'][x]
+            log.info(pkg_dict)
             if restricted_search_enabled:
                 try:
-                    if('extras_eov_restricted' in pkg_dict):
-                        log.info(pkg_dict['extras_eov_restricted'])
+                    if('vocab_eov_restricted' in pkg_dict):
+                        log.info(pkg_dict['vocab_eov_restricted'])
                         log.info(restricted_search_eovs)
                         for x in restricted_search_eovs:
-                            if x in pkg_dict['extras_eov_restricted']:
+                            if x in pkg_dict['vocab_eov_restricted']:
                                 pkg_dict['mark_restricted'] = True
                                 continue
                     if('extras_keywords_restricted' in pkg_dict and 'mark_restricted' not in pkg_dict):
@@ -312,7 +314,10 @@ def clean_and_populate_restricted_eovs(field, schema):
     def validator(key, data, errors, context):
         keywords_main = data.get(('extras_keywords_restricted',), {})
         if keywords_main:
-            eov_data = keywords_main.get('en', [])
+            if isinstance(keywords_main, str):
+                eov_data = json.loads(keywords_main).get('en', [])
+            else:
+                eov_data = keywords_main.get('en', [])
         else:
             return data
 
