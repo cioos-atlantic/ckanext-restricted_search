@@ -26,11 +26,13 @@
   {% block package_tags %}
     {% if pkg.extras_keywords_restricted %}
         <p>
-        Open Variables:
+        
+        Open Keywords:
         </p>
         {% snippet "package/snippets/tags.html", tags=pkg.keywords[h.lang()] %}
         <p>
-        Restricted Variables:
+        <br>
+        Restricted Keywords:
         </p>
         {% snippet "package/snippets/tags.html", tags=pkg.extras_keywords_restricted[h.lang()] %}
     {% else %}
