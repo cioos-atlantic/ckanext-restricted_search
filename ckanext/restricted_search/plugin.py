@@ -132,7 +132,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         restricted_search_enabled = False
         restricted_search_eovs = []
         restricted_search_keywords = []
-        log.info(search_params)
         for x in search_params['fq'][0].replace(")","").replace("(", "").split(" "):
             if(x.startswith('vocab_eov_restricted')):
                 restricted_search_eovs.append(x.split('"')[1])
@@ -144,12 +143,9 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
         # Go through each of the datasets returned in the results
         for x in range(len(datasets)):
             pkg_dict = search_results['results'][x]
-            log.info(pkg_dict)
             if restricted_search_enabled:
                 try:
                     if('vocab_eov_restricted' in pkg_dict):
-                        log.info(pkg_dict['vocab_eov_restricted'])
-                        log.info(restricted_search_eovs)
                         for x in restricted_search_eovs:
                             if x in pkg_dict['vocab_eov_restricted']:
                                 pkg_dict['mark_restricted'] = True
@@ -326,7 +322,6 @@ def clean_and_populate_restricted_eovs(field, schema):
             eov_list[x['value'].lower()] = x['value']
             eov_list[x['label'].lower()] = x['value']
 
-        log.info(eov_data)
         d = json.loads(data.get(key, '[]'))
         for x in eov_data:
             if isinstance(x, str):  # TODO: change basestring to str when moving to python 3
