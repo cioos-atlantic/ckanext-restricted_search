@@ -85,7 +85,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin):
     """
     Hook into before_search
     If the set string is included in the filter query, duplicate the EOV and keywords fields and 
-        set them in either extras_eov_restricted or extras_keywords_restricted respectively
+        set them in either vocab_eov_restricted or extras_keywords_restricted respectively
     """
     def before_search(self, search_params):
         if 'fq' not in search_params:
