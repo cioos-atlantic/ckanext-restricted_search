@@ -25,16 +25,8 @@
 
   {% block package_tags %}
     {% if pkg.extras_keywords_restricted %}
-        <p>
-        
-        Open Keywords:
-        </p>
-        {% snippet "package/snippets/tags.html", tags=pkg.keywords[h.lang()] %}
-        <p>
-        <br>
-        Restricted Keywords:
-        </p>
-        {% snippet "package/snippets/tags.html", tags=pkg.extras_keywords_restricted[h.lang()] %}
+        {% snippet "package/snippets/open_tags.html", tags=pkg.keywords[h.lang()] %}
+        {% snippet "package/snippets/restricted_tags.html", tags=pkg.extras_keywords_restricted[h.lang()] %}
     {% else %}
         {% snippet "package/snippets/tags.html", tags = pkg.keywords[h.lang()] %}
     {% endif %}
