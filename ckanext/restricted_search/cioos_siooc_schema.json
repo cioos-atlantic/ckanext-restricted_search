@@ -320,7 +320,7 @@
       }
     },
     {
-      "field_name": "extras_eov_restricted",
+      "field_name": "vocab_eov_restricted",
       "label": "Ocean Variables (Restricted)",
       "preset": "multiple_select",
       "required": false,
