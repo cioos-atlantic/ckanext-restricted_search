@@ -1,0 +1,61 @@
+# French translations for ckanext-restricted_search.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the
+# ckanext-restricted_search project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-restricted_search 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-27 20:32+0000\n"
+"PO-Revision-Date: 2023-02-27 20:33+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ckanext/restricted_search/templates/package/snippets/open_tags.html:13
+msgid "Open Keywords"
+msgstr "Mots-clés ouverts"
+
+#: ckanext/restricted_search/templates/package/snippets/restricted_tags.html:13
+msgid "Restricted Keywords"
+msgstr "Mots clés restreints"
+
+#: ckanext/restricted_search/templates/scheming/package/read.html:19
+msgid ""
+"<h3>This dataset contains restricted information</h3> You can contact the"
+" dataset owner to request access"
+msgstr ""
+"<h3>Cet ensemble de données contient des informations restreintes</h3>"
+"Vous pouvez contacter le propriétaire de l'ensemble de données pour demander l'accès"
+
+#: ckanext/restricted_search/templates/snippets/package_item.html:22
+msgid "Private"
+msgstr "Privé"
+
+#: ckanext/restricted_search/templates/snippets/package_item.html:27
+msgid "Access on Request"
+msgstr "Accès sur demande"
+
+#: ckanext/restricted_search/templates/snippets/search_form.html:6
+msgid "Order by"
+msgstr "Trier par"
+
+#: ckanext/restricted_search/templates/snippets/search_form.html:15
+msgid "Go"
+msgstr "Aller"
+
+#: ckanext/restricted_search/templates/snippets/search_form.html:46
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ckanext/restricted_search/templates/snippets/search_form.html:51
+msgid "Filter Results"
+msgstr "Filtrer les résultats"
+

@@ -16,8 +16,8 @@
     {% endif %}
     {% if pkg.extras_keywords_restricted or pkg.vocab_eov_restricted %}
         <p>
-            <h3>This dataset contains restricted information</h3>
-            You can contact the dataset owner to request access
+            {% trans %}<h3>This dataset contains restricted information</h3>
+            You can contact the dataset owner to request access{% endtrans %}
         </p>
     {% endif %}
 

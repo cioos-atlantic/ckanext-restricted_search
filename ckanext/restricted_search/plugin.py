@@ -8,6 +8,7 @@ import ckanext.restricted_search.cli as cli
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.spatial.validation.validation import BaseValidator
 from ckanext.cioos_harvest import plugin as harvester
+from ckan.lib.plugins import DefaultTranslation
 import xml.etree.ElementTree as ET
 from ckanext.scheming.validation import scheming_validator
 
@@ -16,8 +17,9 @@ import json
 log = logging.getLogger(__name__)
 
 
-class RestrictedSearchPlugin(plugins.SingletonPlugin):
+class RestrictedSearchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     #TODO find out which are no longer required
+    plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IPackageController, inherit=True)
@@ -208,7 +210,6 @@ class RestrictedHarvestPlugin(plugins.SingletonPlugin):
         return []
 
     def get_package_dict(self, context, data_dict):
-        log.info("Getting pkg dict")
         pkg_dict = data_dict['package_dict']
         iso_values = data_dict['iso_values']
         harvest_object = data_dict['harvest_object']
