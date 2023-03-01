@@ -71,7 +71,7 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     Reintroduce if new field set up
     """
     def dataset_facets(self, facets_dict, package_type):
-        # facets_dict['extras_eov_restricted'] = toolkit._('Restricted EOVs')
+        facets_dict['vocab_eov_restricted'] = toolkit._('Restricted EOVs')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type, ):
