@@ -29,11 +29,11 @@ msgstr "Mots clés restreints"
 
 #: ckanext/restricted_search/templates/scheming/package/read.html:19
 msgid ""
-"<h3>This dataset contains restricted information</h3> You can contact the"
+"<h3>This dataset contains restricted information</h3> Contact the"
 " dataset owner to request access"
 msgstr ""
 "<h3>Cet ensemble de données contient des informations restreintes</h3>"
-"Vous pouvez contacter le propriétaire de l'ensemble de données pour demander l'accès"
+"Contacter le propriétaire de l'ensemble de données pour demander l'accès"
 
 #: ckanext/restricted_search/templates/snippets/package_item.html:22
 msgid "Private"
@@ -50,6 +50,14 @@ msgstr "Trier par"
 #: ckanext/restricted_search/templates/snippets/search_form.html:15
 msgid "Go"
 msgstr "Aller"
+
+#: ckanext/restricted_search/templates/snippets/search_form.html:21
+msgid "Hide entries with restricted records"
+msgstr "Masquer les entrées avec des enregistrements restreints"
+
+#: ckanext/restricted_search/templates/snippets/search_form.html:27
+msgid "Show entries with restricted records"
+msgstr "Afficher les entrées avec des enregistrements restreints"
 
 #: ckanext/restricted_search/templates/snippets/search_form.html:46
 msgid "Remove"
