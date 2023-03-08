@@ -123,6 +123,8 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     # IPackageController -> When displaying a dataset
     def after_show(self,context, pkg_dict):
+        if 'extras_keywords_restricted' in pkg_dict:
+            log.info(pkg_dict['extras_keywords_restricted'])
         return pkg_dict
 
     def after_search(self, search_results, search_params):
