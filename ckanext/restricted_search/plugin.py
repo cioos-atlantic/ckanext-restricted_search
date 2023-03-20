@@ -66,12 +66,8 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return []
 
    # Interfaces
-    """
-    Commented out as the restricted field is a 'text' instead of 'string' and gets tokenized
-    Reintroduce if new field set up
-    """
     def dataset_facets(self, facets_dict, package_type):
-        facets_dict['vocab_eov_restricted'] = toolkit._('Restricted EOVs')
+        #facets_dict['vocab_eov_restricted'] = toolkit._('Restricted EOVs')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type, ):
@@ -126,7 +122,6 @@ class RestrictedSearchPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return pkg_dict
 
     def after_search(self, search_results, search_params):
-        # Gets the current user's ID (or if the user object does not exist, sets user as 'public')
         datasets = search_results['results']
         
         # Checks if the search requires restricted variable checking
@@ -264,9 +259,6 @@ class RestrictedHarvestValidatorPlugin(plugins.SingletonPlugin):
         }
 
     def get_validators(self):
-        # For some reason returning it outside the variable causes spatial to think it's being passed a string
-        #validators = {'cioos_clean_and_populate_restricted_eovs': clean_and_populate_restricted_eovs}
-        #return validators
         return {'cioos_clean_and_populate_restricted_eovs':clean_and_populate_restricted_eovs}
 
     """
@@ -301,10 +293,10 @@ class RestrictedHarvestValidatorPlugin(plugins.SingletonPlugin):
     
 # IValidators
 
-# this validator tries to populate eov from keywords. It looks for any english
+# This validator tries to populate eov from keywords. It looks for any English
 # keywords that match either the value or label in the choice list for the eov
 # field and add's them to the eov field.
-# Validator adapted from: https://github.com/cioos-siooc/ckanext-cioos_theme/blob/master/ckanext/cioos_theme/plugin.py#L108
+# Validator adapted from: https://github.com/cioos-siooc/ckanext-cioos_theme/blob/master/ckanext/cioos_theme/plugin.py
 #   except to be used with the restricted keyword field instead and the field can be empty
 @scheming_validator
 def clean_and_populate_restricted_eovs(field, schema):
@@ -325,7 +317,7 @@ def clean_and_populate_restricted_eovs(field, schema):
 
         d = json.loads(data.get(key, '[]'))
         for x in eov_data:
-            if isinstance(x, str):  # TODO: change basestring to str when moving to python 3
+            if isinstance(x, str):
                 val = eov_list.get(x.lower(), '')
             else:
                 val = eov_list.get(x, '')
