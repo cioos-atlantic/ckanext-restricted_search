@@ -16,9 +16,17 @@
     {% endblock %}
     <br></br>
     {% if h.get_request_param('restricted_search') %}
-        <span class="dataset-heading"><a href = {{h.remove_url_param(key = 'restricted_search')}}>Hide entries with restricted records</a>.</span>
+        <span class="dataset-heading">
+          <a href = {{h.remove_url_param(key = 'restricted_search')}}>
+            {% trans %}Hide entries with restricted records{% endtrans %}
+          </a>.
+        </span>
     {% elif h.get_request_param('eov') or h.get_request_param('tags_en') or h.get_request_param('tags_fr') or h.get_request_param('tags') %}
-        <span class="dataset-heading"><a href = {{h.add_url_param(new_params={'restricted_search':'enabled'})}}>Show entries with restricted records</a>.</span>
+        <span class="dataset-heading">
+          <a href = {{h.add_url_param(new_params={'restricted_search':'enabled'})}}>
+            {% trans %}Show entries with restricted records{% endtrans %}
+          </a>
+        </span>
     {% endif %}
     </div>
 {% endif %}
@@ -30,7 +38,11 @@
         {% for field in facets.fields %}
           {% set search_facets_items = facets.search.get(field)['items'] %}
           {% if field == 'restricted_search' %}
-            <span class="facet">Restricted Search:</span>
+            <span class="facet">
+              {% trans %}
+              Restricted Search:
+              {% endtrans %}
+            </span>
           {% elif field == 'tags' %}
             <span class="facet">Tags:</span>
           {% else %}

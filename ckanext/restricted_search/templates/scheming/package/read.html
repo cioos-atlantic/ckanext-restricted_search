@@ -14,27 +14,19 @@
         {{ h.render_markdown(h.get_translated(pkg, 'notes')) }}
     </div>
     {% endif %}
-    {% if pkg.extras_keywords_restricted or pkg.vocab_eov_restricted %}
+    {% if (pkg.extras_keywords_restricted and pkg.extras_keywords_restricted[h.lang()]) or pkg.vocab_eov_restricted %}
         <p>
-            <h3>This dataset contains restricted information</h3>
-            You can contact the dataset owner to request access
+            {% trans %}<h3>This dataset contains restricted information</h3>
+            Contact the dataset owner to request access{% endtrans %}
         </p>
     {% endif %}
 
 {% endblock %}
 
   {% block package_tags %}
-    {% if pkg.extras_keywords_restricted %}
-        <p>
-        
-        Open Keywords:
-        </p>
-        {% snippet "package/snippets/tags.html", tags=pkg.keywords[h.lang()] %}
-        <p>
-        <br>
-        Restricted Keywords:
-        </p>
-        {% snippet "package/snippets/tags.html", tags=pkg.extras_keywords_restricted[h.lang()] %}
+    {% if pkg.extras_keywords_restricted and pkg.extras_keywords_restricted[h.lang()]%}
+        {% snippet "package/snippets/open_tags.html", tags=pkg.keywords[h.lang()] %}
+        {% snippet "package/snippets/restricted_tags.html", tags=pkg.extras_keywords_restricted[h.lang()] %}
     {% else %}
         {% snippet "package/snippets/tags.html", tags = pkg.keywords[h.lang()] %}
     {% endif %}
