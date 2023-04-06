@@ -4,7 +4,8 @@
   "about": "An initial implementation of the cioos-siooc CKAN dataset schema",
   "about_url": "http://github.com/ckan/ckanext-scheming",
   "form_languages": ["en", "fr"],
-  "dataset_fields": [{
+  "dataset_fields": [
+    {
       "field_name": "title_translated",
       "preset": "fluent_core_translated",
       "display_snippet": null,
@@ -65,7 +66,8 @@
       "preset": "multiple_select",
       "required": true,
       "validators": "scheming_multiple_choice cioos_clean_and_populate_eovs",
-      "choices": [{
+      "choices": [
+        {
           "category": "Biogeochemical",
           "value": "oxygen",
           "label": "Oxygen",
@@ -325,7 +327,8 @@
       "preset": "multiple_select",
       "required": false,
       "validators": "scheming_multiple_choice cioos_clean_and_populate_restricted_eovs",
-      "choices": [{
+      "choices": [
+        {
           "category": "Biogeochemical",
           "value": "oxygen",
           "label": "Oxygen",
@@ -584,7 +587,8 @@
       "preset": "select",
       "display_snippet": "select.html",
       "required": true,
-      "choices": [{
+      "choices": [
+        {
           "value": "attribute",
           "label": "Attribute"
         },
@@ -696,81 +700,96 @@
       "preset": "select",
       "display_snippet": "select.html",
       "required": true,
-      "choices": [{
-        "value": "completed",
-        "label": "Completed"
-      }, {
-        "value": "historicalArchive",
-        "label": "Historical Archive"
-      }, {
-        "value": "obsolete",
-        "label": "Obsolete"
-      }, {
-        "value": "onGoing",
-        "label": "On Going"
-      }, {
-        "value": "planned",
-        "label": "Planned"
-      }, {
-        "value": "required",
-        "label": "Required"
-      }, {
-        "value": "underDevelopment",
-        "label": "Under Development"
-      }, {
-        "value": "final",
-        "label": "Final"
-      }, {
-        "value": "pending",
-        "label": "Pending"
-      }, {
-        "value": "retired",
-        "label": "Retired"
-      }, {
-        "value": "superseded",
-        "label": "Superseded"
-      }, {
-        "value": "tentative",
-        "label": "Tentative"
-      }, {
-        "value": "valid",
-        "label": "Valid"
-      }, {
-        "value": "accepted",
-        "label": "Accepted"
-      }, {
-        "value": "notAccepted",
-        "label": "Not Accepted"
-      }, {
-        "value": "withdrawn",
-        "label": "Withdrawn"
-      }, {
-        "value": "proposed",
-        "label": "Proposed"
-      }, {
-        "value": "deprecated",
-        "label": "Deprecated"
-      }]
+      "choices": [
+        {
+          "value": "completed",
+          "label": "Completed"
+        },
+        {
+          "value": "historicalArchive",
+          "label": "Historical Archive"
+        },
+        {
+          "value": "obsolete",
+          "label": "Obsolete"
+        },
+        {
+          "value": "onGoing",
+          "label": "On Going"
+        },
+        {
+          "value": "planned",
+          "label": "Planned"
+        },
+        {
+          "value": "required",
+          "label": "Required"
+        },
+        {
+          "value": "underDevelopment",
+          "label": "Under Development"
+        },
+        {
+          "value": "final",
+          "label": "Final"
+        },
+        {
+          "value": "pending",
+          "label": "Pending"
+        },
+        {
+          "value": "retired",
+          "label": "Retired"
+        },
+        {
+          "value": "superseded",
+          "label": "Superseded"
+        },
+        {
+          "value": "tentative",
+          "label": "Tentative"
+        },
+        {
+          "value": "valid",
+          "label": "Valid"
+        },
+        {
+          "value": "accepted",
+          "label": "Accepted"
+        },
+        {
+          "value": "notAccepted",
+          "label": "Not Accepted"
+        },
+        {
+          "value": "withdrawn",
+          "label": "Withdrawn"
+        },
+        {
+          "value": "proposed",
+          "label": "Proposed"
+        },
+        {
+          "value": "deprecated",
+          "label": "Deprecated"
+        }
+      ]
     },
     {
       "field_name": "aggregation-info",
       "label": "Associated Datasets",
       "form_blanks": 1,
       "help_text": "https://wiki.esipfed.org/MD_AssociatedResource",
-      "repeating_subfields": [{
-          "field_name": "aggregate-dataset-identifier",
-          "label": "Parent or Linked Dataset",
-          "help_text": "Enter a dataset name or title",
-          "form_attrs": {
-            "data-module": "autocomplete",
-            "data-module-items": 5,
-            "data-module-interval": 500,
-            "data-module-source": "/api/3/action/package_autocomplete?q=?",
-            "data-module-key": "name",
-            "data-module-label": "title",
-            "data-module-class": "",
-            "class": ""
-          }
+      "repeating_subfields": [
+        {
+          "field_name": "aggregate-dataset-name",
+          "label": "Parent or Linked Dataset Title"
+        },
+        {
+          "field_name": "aggregate-dataset-identifier_code",
+          "label": "Parent or Linked Dataset identifier",
+          "help_text": "Enter a dataset full URL or DOI",
+          "form_placeholder": "https://doi.org/10-3565/67890"
         },
         {
           "field_name": "initiative-type",
@@ -906,7 +925,8 @@
         {
           "field_name": "type",
           "label": "Type",
-          "choices": [{
+          "choices": [
+            {
               "value": "creation",
               "label": "Creation"
             },
@@ -994,7 +1014,8 @@
         {
           "field_name": "type",
           "label": "Type",
-          "choices": [{
+          "choices": [
+            {
               "value": "creation",
               "label": "Creation"
             },
@@ -1068,7 +1089,8 @@
       "preset": "select",
       "display_snippet": null,
       "required": true,
-      "choices": [{
+      "choices": [
+        {
           "value": "continual",
           "label": "Continual"
         },
@@ -1129,7 +1151,8 @@
       "help_text": "Individual or Organization who is the primary contact for this dataset",
       "required": true,
       "form_blanks": 1,
-      "repeating_subfields": [{
+      "repeating_subfields": [
+        {
           "field_name": "individual-name",
           "label": "Name",
           "display_snippet": "uri_text.html",
@@ -1207,7 +1230,8 @@
           "label": "Role",
           "preset": "multiple_select",
           "required": true,
-          "choices": [{
+          "choices": [
+            {
               "value": "author",
               "label": "Author"
             },
@@ -1298,7 +1322,8 @@
       "help_text": "All individuals and organizations who contributed to the dataset and thus should appear in the citation",
       "required": true,
       "form_blanks": 1,
-      "repeating_subfields": [{
+      "repeating_subfields": [
+        {
           "field_name": "individual-name",
           "label": "Name",
           "display_snippet": "uri_text.html",
@@ -1376,7 +1401,8 @@
           "label": "Role",
           "preset": "multiple_select",
           "required": true,
-          "choices": [{
+          "choices": [
+            {
               "value": "author",
               "label": "Author"
             },
@@ -1467,7 +1493,8 @@
       "help_text": "All individuals and organizations who disseminate copies of the resource in either electronic or print form",
       "required": false,
       "form_blanks": 1,
-      "repeating_subfields": [{
+      "repeating_subfields": [
+        {
           "field_name": "individual-name",
           "label": "Name",
           "display_snippet": "uri_text.html",
@@ -1545,7 +1572,8 @@
           "label": "Role",
           "preset": "multiple_select",
           "required": true,
-          "choices": [{
+          "choices": [
+            {
               "value": "author",
               "label": "Author"
             },
@@ -1704,7 +1732,8 @@
       "label": "Default Locale",
       "preset": "select",
       "display_snippet": "select.html",
-      "choices": [{
+      "choices": [
+        {
           "value": "en",
           "label": "English"
         },
@@ -1719,7 +1748,8 @@
       "field_name": "unique-resource-identifier-full",
       "label": "Citation identifier",
       "help_text": "If usind a doi url place the while url in the code section. example: http://doi.org/12345.67890#1",
-      "simple_subfields": [{
+      "simple_subfields": [
+        {
           "field_name": "authority",
           "label": "Authority",
           "form_placeholder": "DOI"
@@ -1780,11 +1810,38 @@
       "field_name": "projects",
       "label": "Projects",
       "preset": "multiple_text",
-      "required": false,
-      "validators": "ignore_missing unicode scheming_multiple_text cioos_clean_and_populate_projects"
+      "required": false
+    },
+    {
+      "field_name": "datacentre",
+      "label": "Data Centre",
+      "preset": "multiple_text",
+      "required": false
+    },
+    {
+      "field_name": "included_in_data_catalogue",
+      "label": "Included in Data Catalogue",
+      "display_snippet": null,
+      "help_text": "Catalogues containing this dataset",
+      "form_blanks": 1,
+      "repeating_subfields": [
+        {
+          "field_name": "name",
+          "label": "Name"
+        },
+        {
+          "field_name": "description",
+          "label": "Description"
+        },
+        {
+          "field_name": "url",
+          "label": "URL"
+        }
+      ]
     }
   ],
-  "resource_fields": [{
+  "resource_fields": [
+    {
       "field_name": "url",
       "label": "URL",
       "preset": "resource_url_upload"
