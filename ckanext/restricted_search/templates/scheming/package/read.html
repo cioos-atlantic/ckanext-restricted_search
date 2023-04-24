@@ -5,8 +5,8 @@
     {{ super() }}
     {% if (pkg.extras_keywords_restricted and pkg.extras_keywords_restricted[h.lang()]) or pkg.vocab_eov_restricted %}
         <p>
-            {% trans %}<h5>This dataset contains restricted information</h3>
-            Contact the dataset owner to request access{% endtrans %}
+            {% trans %}<h5>This dataset may contain some restricted data.</h5>
+            <h5>Contact the dataset owner to request access</h5>{% endtrans %}
         </p>
     {% endif %}
 {% endblock %}
