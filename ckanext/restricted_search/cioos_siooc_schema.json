@@ -24,6 +24,13 @@
       }
     },
     {
+      "field_name": "title_translation_method",
+      "preset": "fluent_text",
+      "display_snippet": null,
+      "required": false,
+      "label": "Title Translation Method"
+    },
+    {
       "field_name": "name",
       "label": "URL",
       "preset": "dataset_slug",
@@ -46,6 +53,13 @@
       }
     },
     {
+      "field_name": "notes_translation_method",
+      "preset": "fluent_text",
+      "display_snippet": null,
+      "required": false,
+      "label": "Notes Translation Method"
+    },
+    {
       "field_name": "keywords",
       "preset": "fluent_tags",
       "display_snippet": null,
@@ -61,6 +75,13 @@
       }
     },
     {
+      "field_name": "keywords_translation_method",
+      "preset": "fluent_text",
+      "display_snippet": null,
+      "required": false,
+      "label": "Keywords Translation Method"
+    },
+    {
       "field_name": "eov",
       "label": "Ocean Variables",
       "preset": "multiple_select",
@@ -70,238 +91,355 @@
         {
           "category": "Biogeochemical",
           "value": "oxygen",
-          "label": "Oxygen",
+          "label": {
+            "en": "Oxygen",
+            "fr": "Oxygène"
+          },
           "icon": "dissolved-oxygen.svg"
         },
         {
           "category": "Physical",
           "value": "seaSurfaceHeight",
-          "label": "Sea Surface Height",
+          "label": {
+            "en": "Sea Surface Height",
+            "fr": "Niveau marin"
+          },
           "icon": "sea-level.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "nutrients",
-          "label": "Nutrients",
+          "label": {
+            "en": "Nutrients",
+            "fr": "Nutriments"
+          },
           "icon": "nutrients.svg"
         },
         {
           "category": "Physical",
           "value": "seawaterDensity",
-          "label": "Seawater Density",
+          "label": {
+            "en": "Seawater Density",
+            "fr": "Seawater Density"
+          },
           "icon": "density.svg"
         },
         {
           "category": "Physical",
           "value": "potentialTemperature",
-          "label": "Potential Temperature",
+          "label": {
+            "en": "Potential Temperature",
+            "fr": "Potential Temperature"
+          },
           "icon": "temperature.svg"
         },
         {
           "category": "Physical",
           "value": "potentialDensity",
-          "label": "Potential Density",
+          "label": {
+            "en": "Potential Density",
+            "fr": "Potential Density"
+          },
           "icon": "density.svg"
         },
         {
           "category": "Physical",
           "value": "speedOfSound",
-          "label": "Speed of Sound",
+          "label": {
+            "en": "Speed of Sound",
+            "fr": "Speed of Sound"
+          },
           "icon": "speed-of-sound.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "nitrate",
-          "label": "Nitrate",
+          "label": {
+            "en": "Nitrate",
+            "fr": "Nitrate"
+          },
           "icon": "nitrate.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "phosphate",
-          "label": "Phosphate",
+          "label": {
+            "en": "Phosphate",
+            "fr": "Phosphate"
+          },
           "icon": "phosphate.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "silicate",
-          "label": "Silicate",
+          "label": {
+            "en": "Silicate",
+            "fr": "Silicate"
+          },
           "icon": "silicate.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "inorganicCarbon",
-          "label": "Inorganic Carbon",
+          "label": {
+            "en": "Inorganic Carbon",
+            "fr": "Carbone inorganique"
+          },
           "icon": "inorganic-carbon.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "transientTracers",
-          "label": "Transient tracers",
+          "label": {
+            "en": "Transient tracers",
+            "fr": "Traceurs transitoires"
+          },
           "icon": "transient-tracers.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "particulateMatter",
-          "label": "Particulate matter",
+          "label": {
+            "en": "Particulate matter",
+            "fr": "Matière particulaire"
+          },
           "icon": "particulate-matter.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "nitrousOxide",
-          "label": "Nitrous oxide",
+          "label": {
+            "en": "Nitrous oxide",
+            "fr": "Protoxyde d'azote"
+          },
           "icon": "nitrous-oxide.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "stableCarbonIsotopes",
-          "label": "Stable carbon isotopes",
+          "label": {
+            "en": "Stable carbon isotopes",
+            "fr": "Isotopes stables du carbone"
+          },
           "icon": "stable-carbon-isotopes.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "dissolvedOrganicCarbon",
-          "label": "Dissolved Organic Carbon",
+          "label": {
+            "en": "Dissolved Organic Carbon",
+            "fr": "Carbone organique dissous"
+          },
           "icon": "dissolved-organic-carbon.svg"
         },
         {
           "category": "Physical",
           "value": "seaIce",
-          "label": "Sea Ice",
+          "label": {
+            "en": "Sea Ice",
+            "fr": "Glace de mer"
+          },
           "icon": "sea-ice.svg"
         },
         {
           "category": "Physical",
           "value": "seaState",
-          "label": "Sea State",
+          "label": {
+            "en": "Sea State",
+            "fr": "État de la mer"
+          },
           "icon": "sea-state.svg"
         },
         {
           "category": "Physical",
           "value": "seaSurfaceSalinity",
-          "label": "Sea Surface Salinity",
+          "label": {
+            "en": "Sea Surface Salinity",
+            "fr": "Salinité de surface"
+          },
           "icon": "surface-salinity.svg"
         },
         {
           "category": "Physical",
           "value": "seaSurfaceTemperature",
-          "label": "Sea Surface Temperature",
+          "label": {
+            "en": "Sea Surface Temperature",
+            "fr": "Température de surface"
+          },
           "icon": "surface-temperature.svg"
         },
         {
           "category": "Physical",
           "value": "subSurfaceCurrents",
-          "label": "Sub Surface Currents",
+          "label": {
+            "en": "Sub Surface Currents",
+            "fr": "Courants sous la surface"
+          },
           "icon": "subsurface-currents.svg"
         },
         {
           "category": "Physical",
           "value": "subSurfaceSalinity",
-          "label": "Sub Surface Salinity",
+          "label": {
+            "en": "Sub Surface Salinity",
+            "fr": "Salinité sous la surface"
+          },
           "icon": "subsurface-salinity.svg"
         },
         {
           "category": "Physical",
           "value": "subSurfaceTemperature",
-          "label": "Sub Surface Temperature",
+          "label": {
+            "en": "Sub Surface Temperature",
+            "fr": "Température sous la surface"
+          },
           "icon": "subsurface-temperature.svg"
         },
         {
           "category": "Physical",
           "value": "surfaceCurrents",
-          "label": "Surface Currents",
+          "label": {
+            "en": "Surface Currents",
+            "fr": "Courants de surface"
+          },
           "icon": "surface-currents.svg"
         },
         {
           "category": "Physical",
           "value": "oceanSurfaceStress",
-          "label": "Ocean surface stress",
+          "label": {
+            "en": "Ocean surface stress",
+            "fr": "Contraintes sur la surface océanique"
+          },
           "icon": "sea-surface-stress.svg"
         },
         {
           "category": "Physical",
           "value": "oceanSurfaceHeatFlux",
-          "label": "Ocean surface heat flux",
+          "label": {
+            "en": "Ocean surface heat flux",
+            "fr": "Flux de chaleur océanique de surface"
+          },
           "icon": "ocean-surface-heat-flux.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "phytoplanktonBiomassAndDiversity",
-          "label": "Phytoplankton biomass and diversity",
+          "label": {
+            "en": "Phytoplankton biomass and diversity",
+            "fr": "Biomasse et diversité phytoplanctonique"
+          },
           "icon": "phytoplankton.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "zooplanktonBiomassAndDiversity",
-          "label": "Zooplankton biomass and diversity",
+          "label": {
+            "en": "Zooplankton biomass and diversity",
+            "fr": "Biomasse et diversité zooplanctonique"
+          },
           "icon": "zooplankton.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "fishAbundanceAndDistribution",
-          "label": "Fish abundance and distribution",
+          "label": {
+            "en": "Fish abundance and distribution",
+            "fr": "Abondance et diversité de poissons"
+          },
           "icon": "fish.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "microbeBiomassAndDiversity",
-          "label": "Microbe biomass and diversity",
+          "label": {
+            "en": "Microbe biomass and diversity",
+            "fr": "Biomasse et diversité microbienne"
+          },
           "icon": "microbes.svg",
           "emerging": true
         },
         {
           "category": "BioEcosystems",
           "value": "marineTurtlesBirdsMammalsAbundanceAndDistribution",
-          "label": "Marine turtles, birds, mammals abundance and distribution",
+          "label": {
+            "en": "Marine turtles, birds, mammals abundance and distribution",
+            "fr": "Abondance et distribution de tortues, oiseaux et mammifères marins"
+          },
           "icon": "birds-mammals.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "hardCoralCoverAndComposition",
-          "label": "Hard coral cover and composition",
+          "label": {
+            "en": "Hard coral cover and composition",
+            "fr": "Composition et couverture des coraux durs"
+          },
           "icon": "hard-coral.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "seagrassCoverAndComposition",
-          "label": "Seagrass cover and composition",
+          "label": {
+            "en": "Seagrass cover and composition",
+            "fr": "Composition et couverture des herbiers marins"
+          },
           "icon": "seagrass.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "macroalgalCanopyCoverAndComposition",
-          "label": "Macroalgal canopy cover and composition",
+          "label": {
+            "en": "Macroalgal canopy cover and composition",
+            "fr": "Composition et couverture de la canopée de macroalgues"
+          },
           "icon": "macroalgal-canopy.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "invertebrateAbundanceAndDistribution",
-          "label": "Invertebrate abundance and distribution",
+          "label": {
+            "en": "Invertebrate abundance and distribution",
+            "fr": "Abondance et distribution des invertébrés"
+          },
           "icon": "invertebrates.svg",
           "emerging": true
         },
         {
           "category": "Other",
           "value": "other",
-          "label": "Other",
+          "label": {
+            "en": "Other",
+            "fr": "Autre"
+          },
           "icon": "eov_other.svg"
         },
         {
           "category": "Cross-disciplinary",
           "value": "marineDebris",
-          "label": "Marine debris",
+          "label": {
+            "en": "Marine debris",
+            "fr": "Débris marins"
+          },
           "icon": "marine-debris.svg",
           "emerging": true
         },
         {
           "category": "Cross-disciplinary",
           "value": "oceanColour",
-          "label": "Ocean colour",
+          "label": {
+            "en": "Ocean colour",
+            "fr": "Couleur des océans"
+          },
           "icon": "ocean-colour.svg"
         },
         {
           "category": "Cross-disciplinary",
           "value": "oceanSound",
-          "label": "Ocean sound",
+          "label": {
+            "en": "Ocean sound",
+            "fr": "Paysage acoustique des océans"
+          },
           "icon": "ocean-sound.svg"
         }
       ]
@@ -331,238 +469,355 @@
         {
           "category": "Biogeochemical",
           "value": "oxygen",
-          "label": "Oxygen",
+          "label": {
+            "en": "Oxygen",
+            "fr": "Oxygène"
+          },
           "icon": "dissolved-oxygen.svg"
         },
         {
           "category": "Physical",
           "value": "seaSurfaceHeight",
-          "label": "Sea Surface Height",
+          "label": {
+            "en": "Sea Surface Height",
+            "fr": "Niveau marin"
+          },
           "icon": "sea-level.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "nutrients",
-          "label": "Nutrients",
+          "label": {
+            "en": "Nutrients",
+            "fr": "Nutriments"
+          },
           "icon": "nutrients.svg"
         },
         {
           "category": "Physical",
           "value": "seawaterDensity",
-          "label": "Seawater Density",
+          "label": {
+            "en": "Seawater Density",
+            "fr": "Seawater Density"
+          },
           "icon": "density.svg"
         },
         {
           "category": "Physical",
           "value": "potentialTemperature",
-          "label": "Potential Temperature",
+          "label": {
+            "en": "Potential Temperature",
+            "fr": "Potential Temperature"
+          },
           "icon": "temperature.svg"
         },
         {
           "category": "Physical",
           "value": "potentialDensity",
-          "label": "Potential Density",
+          "label": {
+            "en": "Potential Density",
+            "fr": "Potential Density"
+          },
           "icon": "density.svg"
         },
         {
           "category": "Physical",
           "value": "speedOfSound",
-          "label": "Speed of Sound",
+          "label": {
+            "en": "Speed of Sound",
+            "fr": "Speed of Sound"
+          },
           "icon": "speed-of-sound.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "nitrate",
-          "label": "Nitrate",
+          "label": {
+            "en": "Nitrate",
+            "fr": "Nitrate"
+          },
           "icon": "nitrate.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "phosphate",
-          "label": "Phosphate",
+          "label": {
+            "en": "Phosphate",
+            "fr": "Phosphate"
+          },
           "icon": "phosphate.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "silicate",
-          "label": "Silicate",
+          "label": {
+            "en": "Silicate",
+            "fr": "Silicate"
+          },
           "icon": "silicate.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "inorganicCarbon",
-          "label": "Inorganic Carbon",
+          "label": {
+            "en": "Inorganic Carbon",
+            "fr": "Carbone inorganique"
+          },
           "icon": "inorganic-carbon.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "transientTracers",
-          "label": "Transient tracers",
+          "label": {
+            "en": "Transient tracers",
+            "fr": "Traceurs transitoires"
+          },
           "icon": "transient-tracers.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "particulateMatter",
-          "label": "Particulate matter",
+          "label": {
+            "en": "Particulate matter",
+            "fr": "Matière particulaire"
+          },
           "icon": "particulate-matter.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "nitrousOxide",
-          "label": "Nitrous oxide",
+          "label": {
+            "en": "Nitrous oxide",
+            "fr": "Protoxyde d'azote"
+          },
           "icon": "nitrous-oxide.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "stableCarbonIsotopes",
-          "label": "Stable carbon isotopes",
+          "label": {
+            "en": "Stable carbon isotopes",
+            "fr": "Isotopes stables du carbone"
+          },
           "icon": "stable-carbon-isotopes.svg"
         },
         {
           "category": "Biogeochemical",
           "value": "dissolvedOrganicCarbon",
-          "label": "Dissolved Organic Carbon",
+          "label": {
+            "en": "Dissolved Organic Carbon",
+            "fr": "Carbone organique dissous"
+          },
           "icon": "dissolved-organic-carbon.svg"
         },
         {
           "category": "Physical",
           "value": "seaIce",
-          "label": "Sea Ice",
+          "label": {
+            "en": "Sea Ice",
+            "fr": "Glace de mer"
+          },
           "icon": "sea-ice.svg"
         },
         {
           "category": "Physical",
           "value": "seaState",
-          "label": "Sea State",
+          "label": {
+            "en": "Sea State",
+            "fr": "État de la mer"
+          },
           "icon": "sea-state.svg"
         },
         {
           "category": "Physical",
           "value": "seaSurfaceSalinity",
-          "label": "Sea Surface Salinity",
+          "label": {
+            "en": "Sea Surface Salinity",
+            "fr": "Salinité de surface"
+          },
           "icon": "surface-salinity.svg"
         },
         {
           "category": "Physical",
           "value": "seaSurfaceTemperature",
-          "label": "Sea Surface Temperature",
+          "label": {
+            "en": "Sea Surface Temperature",
+            "fr": "Température de surface"
+          },
           "icon": "surface-temperature.svg"
         },
         {
           "category": "Physical",
           "value": "subSurfaceCurrents",
-          "label": "Sub Surface Currents",
+          "label": {
+            "en": "Sub Surface Currents",
+            "fr": "Courants sous la surface"
+          },
           "icon": "subsurface-currents.svg"
         },
         {
           "category": "Physical",
           "value": "subSurfaceSalinity",
-          "label": "Sub Surface Salinity",
+          "label": {
+            "en": "Sub Surface Salinity",
+            "fr": "Salinité sous la surface"
+          },
           "icon": "subsurface-salinity.svg"
         },
         {
           "category": "Physical",
           "value": "subSurfaceTemperature",
-          "label": "Sub Surface Temperature",
+          "label": {
+            "en": "Sub Surface Temperature",
+            "fr": "Température sous la surface"
+          },
           "icon": "subsurface-temperature.svg"
         },
         {
           "category": "Physical",
           "value": "surfaceCurrents",
-          "label": "Surface Currents",
+          "label": {
+            "en": "Surface Currents",
+            "fr": "Courants de surface"
+          },
           "icon": "surface-currents.svg"
         },
         {
           "category": "Physical",
           "value": "oceanSurfaceStress",
-          "label": "Ocean surface stress",
+          "label": {
+            "en": "Ocean surface stress",
+            "fr": "Contraintes sur la surface océanique"
+          },
           "icon": "sea-surface-stress.svg"
         },
         {
           "category": "Physical",
           "value": "oceanSurfaceHeatFlux",
-          "label": "Ocean surface heat flux",
+          "label": {
+            "en": "Ocean surface heat flux",
+            "fr": "Flux de chaleur océanique de surface"
+          },
           "icon": "ocean-surface-heat-flux.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "phytoplanktonBiomassAndDiversity",
-          "label": "Phytoplankton biomass and diversity",
+          "label": {
+            "en": "Phytoplankton biomass and diversity",
+            "fr": "Biomasse et diversité phytoplanctonique"
+          },
           "icon": "phytoplankton.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "zooplanktonBiomassAndDiversity",
-          "label": "Zooplankton biomass and diversity",
+          "label": {
+            "en": "Zooplankton biomass and diversity",
+            "fr": "Biomasse et diversité zooplanctonique"
+          },
           "icon": "zooplankton.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "fishAbundanceAndDistribution",
-          "label": "Fish abundance and distribution",
+          "label": {
+            "en": "Fish abundance and distribution",
+            "fr": "Abondance et diversité de poissons"
+          },
           "icon": "fish.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "microbeBiomassAndDiversity",
-          "label": "Microbe biomass and diversity",
+          "label": {
+            "en": "Microbe biomass and diversity",
+            "fr": "Biomasse et diversité microbienne"
+          },
           "icon": "microbes.svg",
           "emerging": true
         },
         {
           "category": "BioEcosystems",
           "value": "marineTurtlesBirdsMammalsAbundanceAndDistribution",
-          "label": "Marine turtles, birds, mammals abundance and distribution",
+          "label": {
+            "en": "Marine turtles, birds, mammals abundance and distribution",
+            "fr": "Abondance et distribution de tortues, oiseaux et mammifères marins"
+          },
           "icon": "birds-mammals.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "hardCoralCoverAndComposition",
-          "label": "Hard coral cover and composition",
+          "label": {
+            "en": "Hard coral cover and composition",
+            "fr": "Composition et couverture des coraux durs"
+          },
           "icon": "hard-coral.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "seagrassCoverAndComposition",
-          "label": "Seagrass cover and composition",
+          "label": {
+            "en": "Seagrass cover and composition",
+            "fr": "Composition et couverture des herbiers marins"
+          },
           "icon": "seagrass.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "macroalgalCanopyCoverAndComposition",
-          "label": "Macroalgal canopy cover and composition",
+          "label": {
+            "en": "Macroalgal canopy cover and composition",
+            "fr": "Composition et couverture de la canopée de macroalgues"
+          },
           "icon": "macroalgal-canopy.svg"
         },
         {
           "category": "BioEcosystems",
           "value": "invertebrateAbundanceAndDistribution",
-          "label": "Invertebrate abundance and distribution",
+          "label": {
+            "en": "Invertebrate abundance and distribution",
+            "fr": "Abondance et distribution des invertébrés"
+          },
           "icon": "invertebrates.svg",
           "emerging": true
         },
         {
           "category": "Other",
           "value": "other",
-          "label": "Other",
+          "label": {
+            "en": "Other",
+            "fr": "Autre"
+          },
           "icon": "eov_other.svg"
         },
         {
           "category": "Cross-disciplinary",
           "value": "marineDebris",
-          "label": "Marine debris",
+          "label": {
+            "en": "Marine debris",
+            "fr": "Débris marins"
+          },
           "icon": "marine-debris.svg",
           "emerging": true
         },
         {
           "category": "Cross-disciplinary",
           "value": "oceanColour",
-          "label": "Ocean colour",
+          "label": {
+            "en": "Ocean colour",
+            "fr": "Couleur des océans"
+          },
           "icon": "ocean-colour.svg"
         },
         {
           "category": "Cross-disciplinary",
           "value": "oceanSound",
-          "label": "Ocean sound",
+          "label": {
+            "en": "Ocean sound",
+            "fr": "Paysage acoustique des océans"
+          },
           "icon": "ocean-sound.svg"
         }
       ]
@@ -1092,51 +1347,87 @@
       "choices": [
         {
           "value": "continual",
-          "label": "Continual"
+          "label": {
+            "en": "Continual",
+            "fr": "Continue"
+          }
         },
         {
           "value": "daily",
-          "label": "Daily"
+          "label": {
+            "en": "Daily",
+            "fr": "Quotidien"
+          }
         },
         {
           "value": "weekly",
-          "label": "Weekly"
+          "label": {
+            "en": "Weekly",
+            "fr": "Hebdomadaire"
+          }
         },
         {
           "value": "fortnightly",
-          "label": "Fortnightly"
+          "label": {
+            "en": "Every two weeks",
+            "fr": "Quinzomadaire"
+          }
         },
         {
           "value": "monthly",
-          "label": "Monthly"
+          "label": {
+            "en": "Monthly",
+            "fr": "Mensuel"
+          }
         },
         {
           "value": "quarterly",
-          "label": "Quarterly"
+          "label": {
+            "en": "Quarterly",
+            "fr": "Trimestriel"
+          }
         },
         {
-          "value": "bianually",
-          "label": "Bianually"
+          "value": "biannually",
+          "label": {
+            "en": "Biannually",
+            "fr": "Semestriel"
+          }
         },
         {
           "value": "annually",
-          "label": "Annually"
+          "label": {
+            "en": "Annually",
+            "fr": "Annuel"
+          }
         },
         {
           "value": "asNeeded",
-          "label": "As Needed"
+          "label": {
+            "en": "As Needed",
+            "fr": "Au besoin"
+          }
         },
         {
           "value": "irregular",
-          "label": "Irregular"
+          "label": {
+            "en": "Irregular",
+            "fr": "Irrégulier"
+          }
         },
         {
           "value": "notPlanned",
-          "label": "Not Planned"
+          "label": {
+            "en": "Not Planned",
+            "fr": "Non planifié"
+          }
         },
         {
           "value": "unknown",
-          "label": "Unknown"
+          "label": {
+            "en": "Unknown",
+            "fr": "Inconnu"
+          }
         }
       ]
     },

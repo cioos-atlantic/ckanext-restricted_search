@@ -300,30 +300,48 @@ class RestrictedHarvestValidatorPlugin(plugins.SingletonPlugin):
 #   except to be used with the restricted keyword field instead and the field can be empty
 @scheming_validator
 def clean_and_populate_restricted_eovs(field, schema):
+
     def validator(key, data, errors, context):
-        keywords_main = data.get(('extras_keywords_restricted',), {})
+        if errors[key] and (u'Select at least one' not in errors[key] or 'Select at least one' not in errors[key]):
+            return
+        keywords_main = json.loads(data.get(('extras_keywords_restricted',), {}))
+        log.info(keywords_main)
+        log.info(type(keywords_main))
         if keywords_main:
-            if isinstance(keywords_main, str):
-                eov_data = json.loads(keywords_main).get('en', [])
-            else:
-                eov_data = keywords_main.get('en', [])
+            eov_data = keywords_main.get('en', [])
         else:
-            return data
+            extras = data.get(("__extras", ), {})
+            eov_data = extras.get('keywords-en', '').split(',')
 
         eov_list = {}
-        for x in toolkit.h.scheming_field_choices(toolkit.h.scheming_field_by_name(schema['dataset_fields'], 'eov')):
+        eov_field = toolkit.h.scheming_field_by_name(schema['dataset_fields'], 'eov')
+        langs = toolkit.h.fluent_form_languages(eov_field, None, None, schema)
+        for x in toolkit.h.scheming_field_choices(eov_field):
             eov_list[x['value'].lower()] = x['value']
-            eov_list[x['label'].lower()] = x['value']
+            for lang in langs:
+                if x['label'].get(lang):
+                    eov_list[x['label'][lang].lower()] = x['value']
+                    # if clean_tags is true during harvesting then spaces will be
+                    # replaced by dash's by mung_tags
+                    eov_list[x['label'][lang].replace(' ', '-').lower()] = x['value']
 
         d = json.loads(data.get(key, '[]'))
         for x in eov_data:
             if isinstance(x, str):
                 val = eov_list.get(x.lower(), '')
+            elif isinstance(x, dict):
+                val = eov_list.get(x['name'].lower(), '')
             else:
                 val = eov_list.get(x, '')
             if val and val not in d:
                 d.append(val)
 
+        if len(d) and u'Select at least one' in errors[key]:
+            errors[key].remove(u'Select at least one')
+        if len(d) and 'Select at least one' in errors[key]:
+            errors[key].remove('Select at least one')
+
         data[key] = json.dumps(d)
         return data
+
     return validator
