@@ -2100,12 +2100,14 @@
     {
       "field_name": "projects",
       "label": "Projects",
+      "validators": "ignore_missing",
       "preset": "multiple_text",
       "required": false
     },
     {
       "field_name": "datacentre",
       "label": "Data Centre",
+      "validators": "ignore_missing",
       "preset": "multiple_text",
       "required": false
     },
